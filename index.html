@@ -11,9 +11,9 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
-<title>Satsang Parichay Prep</title>
+<title>Satsang Prep</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;600;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
 <style>
 /* VOICE: calm, devotional, disciplined: a study companion, not a game.
    IDEA: a mandir study shelf: four textbooks as spines that fill as you read.
@@ -89,19 +89,118 @@ textarea{min-height:80px}
 .set input[type=date]{width:auto}
 .tog{width:22px;height:22px;accent-color:var(--sa)}
 /* reader */
-#reader{position:fixed;inset:0;z-index:20;background:light-dark(#e9e1e3,#0c0809);display:flex;flex-direction:column}
+#reader{position:fixed;inset:0;z-index:20;background:var(--rbg);color:var(--rink);display:flex;flex-direction:column;
+ --rbg:light-dark(#fbf8f2,#141012);--rink:light-dark(#2b2420,#ece3dc);--rmute:light-dark(#857467,#a8988e);--rline:light-dark(#e8dfd2,#30262a);--rpanel:light-dark(#f3ece1,#1e1719);--fs:19px}
+#reader[data-th=paper]{color-scheme:light;--rbg:#fbf8f2;--rink:#2b2420;--rmute:#857467;--rline:#e8dfd2;--rpanel:#f3ece1}
+#reader[data-th=sepia]{color-scheme:light;--rbg:#f3e9d3;--rink:#3a2c20;--rmute:#86705a;--rline:#e0d2b6;--rpanel:#eadcc0}
+#reader[data-th=night]{color-scheme:dark;--rbg:#141012;--rink:#ece3dc;--rmute:#a8988e;--rline:#30262a;--rpanel:#1e1719}
 #reader[hidden]{display:none}
-.rbar{display:flex;align-items:center;gap:6px;padding:calc(6px + env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) 6px max(8px,env(safe-area-inset-left));background:var(--band);color:var(--bandink)}
-.rbar button{background:none;border:0;color:inherit;min-width:44px;min-height:44px;font-size:18px;border-radius:8px}
-.rbar .t{flex:1;font-size:14px;line-height:1.2;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-#pages{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
+.rbar{display:flex;align-items:center;gap:2px;padding:calc(4px + env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) 4px max(6px,env(safe-area-inset-left));background:var(--band);color:var(--bandink)}
+.rbar button{background:none;border:0;color:inherit;min-width:44px;min-height:44px;font-size:18px;border-radius:10px}
+.rbar button[aria-pressed=true]{background:rgba(255,255,255,.16)}
+.rbar .t{flex:1;font-size:13px;line-height:1.25;overflow:hidden;padding:0 4px}
+.rbar .t b,.rbar .t span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rbar .t span{opacity:.85}
+#rprog{height:3px;background:rgba(229,122,18,.18)}#rprog i{display:block;height:100%;width:0;background:var(--sa);transition:width .3s}
+.rtools{display:flex;align-items:center;gap:6px;padding:6px 10px;border-bottom:1px solid var(--rline);background:var(--rbg);overflow-x:auto;scrollbar-width:none}
+.seg{display:inline-flex;border:1px solid var(--rline);border-radius:99px;padding:2px;flex:none}
+.seg button{border:0;background:none;border-radius:99px;min-height:32px;padding:0 12px;font-size:14px;font-weight:600;color:var(--rmute)}
+.seg button[aria-pressed=true]{background:var(--rink);color:var(--rbg)}
+.seg button:disabled{opacity:.35}
+.chip{border:1px solid var(--rline);background:none;border-radius:99px;min-height:34px;padding:0 12px;font-size:14px;font-weight:600;color:var(--rink);flex:none}
+.chip[aria-pressed=true]{border-color:var(--sa);background:rgba(229,122,18,.14)}
+.rtools .sp{flex:1}
+#rbody{flex:1;display:flex;flex-direction:column;min-height:0;position:relative}
+@media(min-width:900px){#rbody{flex-direction:row}}
+#pages{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:8px 0 calc(8px + env(safe-area-inset-bottom));background:light-dark(#e9e1e3,#0c0809)}
+#pages[hidden],#flow[hidden],#cmp[hidden]{display:none}
 .pg{margin:0 auto 8px;background:#fff;position:relative;box-shadow:0 1px 4px rgba(0,0,0,.2)}
 .pg canvas{width:100%;height:100%;display:block}
 .pg .n{position:absolute;right:6px;bottom:4px;font-size:11px;color:#999}
-#sheet{position:absolute;left:0;right:0;bottom:0;max-height:70%;overflow:auto;background:var(--bg);border-radius:16px 16px 0 0;padding:16px;box-shadow:0 -4px 20px rgba(0,0,0,.25);padding-bottom:calc(16px + env(safe-area-inset-bottom))}
+#flow{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;font-family:Literata,Georgia,serif;font-size:var(--fs);line-height:1.7;scroll-padding-top:12px}
+#flow .in{max-width:36rem;margin:0 auto;padding:18px 22px calc(160px + env(safe-area-inset-bottom))}
+.sec{content-visibility:auto;contain-intrinsic-size:auto 1400px}
+.sec+.sec{margin-top:2.6em;padding-top:1.6em;border-top:1px solid var(--rline)}
+#flow h2.st{font-size:1.45em;line-height:1.2;margin:0 0 .9em;font-weight:600;text-wrap:balance}
+#flow h2.st .lab{display:block;font:600 12px/1.4 Mukta,system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--sa);margin-bottom:.4em}
+#flow .h{font-size:1.15em;margin:1.4em 0 .6em;font-weight:600;line-height:1.3}
+#flow .h4{font:700 13px/1.4 Mukta,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--rmute);margin:1.8em 0 .5em}
+#flow .p{margin:0 0 .45em;text-indent:1.3em;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+#flow h2+.p,#flow .h+.p,#flow .h4+.p,#flow .orn+.p,#flow .cap+.p{text-indent:0}
+#flow .p.li{text-indent:0;padding-left:1.3em;position:relative;margin:.5em 0}
+#flow .p.li::before{content:"";position:absolute;left:.3em;top:.72em;width:.38em;height:.38em;border-radius:50%;background:var(--sa)}
+#flow .v{white-space:pre-line;margin:.9em 0;padding:.1em 0 .1em 1em;border-left:2px solid var(--rline)}
+#flow .gl{margin:0 0 .5em;padding-left:1.2em;text-indent:-1.2em;font-size:.94em}
+#flow .gl em:first-child{font-weight:600}
+#flow .fn{font-size:.8em;color:var(--rmute);margin:.6em 0;border-top:1px solid var(--rline);padding-top:.4em}
+#flow .cap{margin:1em 0;padding:.55em .8em;border-left:3px solid var(--sa);background:var(--rpanel);border-radius:0 10px 10px 0;font:14px/1.45 Mukta,system-ui,sans-serif;color:var(--rmute)}
+#flow .cap button{display:block;border:0;background:none;padding:0 0 2px;color:var(--sa);font:600 12px Mukta,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase}
+#flow .orn{text-align:center;color:var(--rmute);letter-spacing:.8em;margin:1.2em 0;font-size:.8em}
+#flow em.g{text-decoration:underline dotted;text-decoration-color:var(--rmute);text-underline-offset:.2em;cursor:pointer}
+.pgm{user-select:none;-webkit-user-select:none}
+.pgm::before{content:attr(data-n);font:600 10.5px/1 Mukta,system-ui,sans-serif;color:var(--rmute);border:1px solid var(--rline);border-radius:99px;padding:1px 6px;margin:0 .3em;vertical-align:.25em;text-indent:0;display:inline-block}
+.hl{color:inherit;border-radius:.22em;padding:.04em 0;-webkit-box-decoration-break:clone;box-decoration-break:clone;cursor:pointer}
+.h-fact{background:rgba(255,206,0,.42)}.h-quote{background:rgba(255,99,146,.28)}.h-why{background:rgba(70,150,255,.27)}.h-lesson{background:rgba(52,190,120,.30)}
+.h-event{background:none;text-decoration:underline;text-decoration-color:#b4233f;text-decoration-thickness:.14em;text-underline-offset:.24em}
+.h-word{background:none;border:1.7px solid #e57a12;border-radius:255px 18px 225px 18px/18px 225px 18px 255px;padding:0 .2em;margin:0 -.05em}
+.h-note{background:none;text-decoration:underline dotted;text-decoration-color:var(--rmute);text-decoration-thickness:.12em;text-underline-offset:.24em}
+.h-note:last-of-type::after{content:"✎";font-size:.7em;vertical-align:.5em;color:var(--sa)}
+#reader[data-th=night] .h-fact{background:rgba(255,206,0,.30)}#reader[data-th=night] .h-quote{background:rgba(255,99,146,.30)}#reader[data-th=night] .h-why{background:rgba(70,150,255,.32)}#reader[data-th=night] .h-lesson{background:rgba(52,190,120,.30)}#reader[data-th=night] .h-event{text-decoration-color:#ff7d93}
+.flash{animation:fl 1.6s ease-out}@keyframes fl{0%{box-shadow:0 0 0 4px rgba(229,122,18,.55)}100%{box-shadow:0 0 0 4px rgba(229,122,18,0)}}
+.spk{background:rgba(229,122,18,.16);box-shadow:0 0 0 2px rgba(229,122,18,.16);border-radius:.2em}
+.prep{max-width:26rem;margin:15vh auto 0;padding:0 24px;font-family:Mukta,system-ui,sans-serif;text-align:center}
+.prep .bar{height:6px;border-radius:9px;background:var(--rline);overflow:hidden;margin-top:14px}.prep .bar i{display:block;height:100%;width:0;background:var(--sa);transition:width .2s}
+#cmp{flex:0 0 50%;overflow:auto;border-top:2px solid var(--rline);background:light-dark(#e9e1e3,#0c0809);font-family:Mukta,system-ui,sans-serif}
+@media(min-width:900px){#cmp{flex:0 0 46%;border-top:0;border-left:2px solid var(--rline)}}
+#cmp .ch{position:sticky;top:0;z-index:1;display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--rbg);border-bottom:1px solid var(--rline);font-size:14px}
+#cmp .ch .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#cmp .ch button{min-height:36px}
+#cmp .cp{margin:8px auto;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);position:relative}
+#cmp .cp canvas{display:block;width:100%}
+#cmp .cp span{position:absolute;right:6px;bottom:3px;font-size:11px;color:#888}
+#cmp .msg{padding:18px;font-size:15px}
+.dock{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:center;pointer-events:none;padding:0 8px calc(10px + env(safe-area-inset-bottom));z-index:3}
+.dock>div{pointer-events:auto;background:var(--rbg);color:var(--rink);border:1px solid var(--rline);border-radius:20px;box-shadow:0 6px 24px rgba(0,0,0,.18);font-family:Mukta,system-ui,sans-serif}
+.dock[hidden]{display:none}
+#selbar>div{display:flex;gap:2px;padding:6px}
+#selbar button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:44px;padding:4px 2px;font-size:11px;font-weight:600;color:var(--rink);border-radius:12px}
+#selbar i,.sw{width:26px;height:26px;border-radius:50%;display:block;font-style:normal;font-size:14px;line-height:26px;text-align:center}
+.sw-fact{background:rgba(255,206,0,.75)}.sw-quote{background:rgba(255,99,146,.6)}.sw-why{background:rgba(70,150,255,.55)}.sw-lesson{background:rgba(52,190,120,.6)}
+.sw-event{box-shadow:inset 0 -4px 0 #b4233f;border-radius:6px!important}.sw-word{border:2px solid #e57a12}.sw-note{border:1.5px dashed var(--rmute)}
+#player>div{display:flex;align-items:center;gap:4px;padding:6px 8px}
+#player button{border:0;background:none;min-width:44px;min-height:44px;border-radius:12px;font-size:18px;color:var(--rink)}
+#player .pp{background:var(--sa);color:#fff;border-radius:50%;width:48px;height:48px}
+#player .rt{font-size:14px;font-weight:700;min-width:52px}
+#player .who{font-size:12px;color:var(--rmute);max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
+#toast{position:absolute;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--rink);color:var(--rbg);padding:8px 14px;border-radius:12px;font:14px/1.35 Mukta,system-ui,sans-serif;max-width:88%;z-index:4;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+#toast[hidden]{display:none}
+#toast button{border:0;background:none;color:var(--sa);font-weight:700;margin-left:8px}
+#sheet{position:absolute;left:0;right:0;bottom:0;max-height:78%;overflow:auto;background:var(--rbg);color:var(--rink);border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -6px 28px rgba(0,0,0,.25);z-index:5;font-family:Mukta,system-ui,sans-serif}
+@media(min-width:700px){#sheet{left:50%;right:auto;width:620px;transform:translateX(-50%)}}
 #sheet[hidden]{display:none}
-.toc button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:none;padding:10px 2px;min-height:44px}
-.toc small{color:var(--mute);white-space:nowrap}
+#sheet input,#sheet textarea,#sheet select{background:var(--rbg);color:var(--rink);border-color:var(--rline)}
+#sheet .btn{background:var(--rpanel);border-color:var(--rline);color:var(--rink)}#sheet .btn.pri{background:var(--sa);border-color:var(--sa);color:#fff}
+.shh{display:flex;align-items:center;gap:8px;margin-bottom:10px}.shh h3{flex:1;font-size:18px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto}
+.toc button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--rline);background:none;padding:10px 2px;min-height:44px;color:var(--rink);font-size:15px}
+.toc button.on{color:var(--sa);font-weight:700}
+.toc small{color:var(--rmute);white-space:nowrap}
+.toc .sub{padding-left:14px}
+.nb{border:0;border-left:4px solid var(--rline);background:var(--rpanel);border-radius:0 12px 12px 0;padding:8px 10px;margin:8px 0;width:100%;text-align:left;color:var(--rink);display:block;font-size:15px;line-height:1.45}
+.nb small{display:block;color:var(--rmute);font-size:12px;margin-top:3px}
+.nb.k-fact{border-color:#e8b800}.nb.k-quote{border-color:#f0517f}.nb.k-why{border-color:#3d8bf0}.nb.k-lesson{border-color:#2fae6e}.nb.k-event{border-color:#b4233f}.nb.k-word{border-color:#e57a12}.nb.k-note{border-color:var(--rmute)}
+.nbq{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.legend{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;align-items:center;font-size:14px;margin:6px 0 4px}
+.kinds{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.kinds button{display:flex;align-items:center;gap:6px;border:1px solid var(--rline);background:none;border-radius:99px;padding:4px 10px 4px 5px;min-height:36px;font-size:14px;color:var(--rink)}
+.kinds button[aria-pressed=true]{border-color:var(--rink);font-weight:700}
+.kinds .sw{width:20px;height:20px}
+.recall{font-family:Literata,Georgia,serif;font-size:18px;line-height:1.6;background:var(--rpanel);border-radius:14px;padding:16px;margin:10px 0;min-height:120px}
+.recall .gap{display:inline-block;min-width:4em;border-bottom:2px solid var(--sa)}
+.recall .ans{background:rgba(229,122,18,.18);border-radius:.2em}
+.gpop{font-size:15px;line-height:1.5}
+.gpop dfn{font-family:Literata,Georgia,serif;font-style:italic;font-size:20px;font-weight:600;display:block}
+input[type=range]{width:100%;accent-color:var(--sa)}
 @media(prefers-reduced-motion:reduce){.spine .fill{transition:none}}
 </style>
 </head>
@@ -128,20 +227,29 @@ textarea{min-height:80px}
 <div id="reader" hidden>
 <div class="rbar">
 <button id="rClose" aria-label="Close reader">✕</button>
-<div class="t"><b id="rTitle"></b><br><span id="rPage"></span></div>
+<div class="t"><b id="rTitle"></b><span id="rPage"></span></div>
 <button id="rMark" aria-label="Bookmark this page">☆</button>
-<button id="rOut" aria-label="Zoom out">−</button>
-<button id="rIn" aria-label="Zoom in">+</button>
-<button id="rToc" aria-label="Contents and bookmarks">☰</button>
+<button id="rSpeak" aria-label="Read aloud" aria-pressed="false">🔊</button>
+<button id="rSet" aria-label="Text size and theme">Aa</button>
+<button id="rToc" aria-label="Contents, notes and bookmarks">☰</button>
 </div>
+<div id="rprog"><i></i></div>
+<div class="rtools" id="rtools"></div>
+<div id="rbody">
+<div id="flow" hidden><div class="in" id="flowIn"></div></div>
 <div id="pages"></div>
+<div id="cmp" hidden></div>
+<div class="dock" id="selbar" hidden><div role="toolbar" aria-label="Mark the selected words"></div></div>
+<div class="dock" id="player" hidden><div></div></div>
+<div id="toast" hidden role="status"></div>
+</div>
 <div id="sheet" hidden></div>
 </div>
 <input type="file" id="fileIn" accept="application/pdf,.pdf" multiple hidden>
 
 <script>
 {
-const DATA={"books":{"sc":{"title":"Sahajanand Charitra","paper":1,"offset":14,"end":165,"ch":[[1,"Swaminarayan – The Divine Mantra",1],[1,"Maharaj’s Routine",3],[1,"The Spread of Satsang",4],[1,"Emptying Hell",4],[2,"Magniram Becomes Advaitanand",6],[2,"Nishchay to Ramchandra Sheth",10],[2,"Experiences of Samadhi",11],[2,"Annakut in Loj",12],[2,"Realization to Muktanand Swami",12],[2,"Excommunication of Harbai and Valbai",16],[2,"Darshan in Two Forms",18],[3,"A Fakir Is Shown a Miracle",20],[3,"Alms Distribution Activities",20],[3,"Sweeter Than Milk",21],[3,"Test of Sundarji Suthar",22],[3,"Protection of Mulji Sheth",24],[3,"Diksha to Lalji Suthar",25],[4,"Visits to Kariyani and Gadhada",27],[4,"Removed Imaginary Fears and Superstitions",27],[4,"Murti-Pratishtha of Shri Vasudev-Narayan",30],[4,"Shunned Precious Things",31],[4,"Method of De-addiction",31],[5,"Bhattji’s Dilemma Solved",34],[5,"Stopped Infanticide",35],[5,"Eradication of Sati custom",36],[5,"Initiation of Paramhansas",37],[6,"The Greatness of Mulji Bhakta",40],[6,"Initiation to Eighteen Devotees",41],[6,"Opposed Killings During the Yagnas",42],[6,"Made Mukund Brahmachari Sit with Him",43],[6,"Practised What He Preached",44],[6,"Rigorous Tests for the Sadhus",45],[6,"Realization Comes to a Pathan",48],[7,"A Dumb Recites the Vedas",49],[7,"Learn Sanskrit",50],[7,"Non-Violent Yagna at Jetalpur",51],[7,"The Nuisance of Lolangar",54],[7,"The End of Jagjivan",56],[8,"I Want to Liberate Them All",58],[8,"Yagna at Dabhan",59],[8,"“Have Mercy on Us”",60],[8,"Shriji Maharaj Attainable Through His Grace",61],[8,"Sahajanand, the Just",62],[9,"Darshan of Dharma-Bhakti",64],[9,"Shobharam Becomes Blind",65],[9,"Gift of Vision",66],[10,"Test of Jiva Khachar",68],[10,"Purified Speech",69],[10,"Manki’s Mount",70],[10,"Predicts Famine",72],[10,"The Art of Liberation",73],[10,"Discouraged Abusive Songs",75],[10,"The Glory of Gunatit",77],[10,"Nawab’s Faith Vindicated",79],[11,"The Famine of 1869",82],[11,"End of Famine",83],[11,"Invited Illness at Jaliya",84],[11,"Dumb as Doves",85],[12,"Succour to the Poor",87],[12,"Throne of God",88],[12,"Reception at Dharampur",89],[12,"Prefection Through Purification",89],[12,"Darshan in Twelve Forms",90],[13,"Code of Conduct for the Sadhus",92],[13,"Give Up Bad Nature",92],[13,"Stopped the Singing of Vulgar Songs",93],[13,"Pleased a Child",94],[14,"Defeat of Vedantacharya",96],[14,"Re-entry into Ahmedabad",99],[14,"Insult at Anand",101],[15,"Appointment of Sadgurus",104],[15,"Explained the Sadhu Dharma",108],[15,"Maharaj’s Love for Children",108],[16,"Six Objectives",110],[16,"Vegetable Festival at Loya",111],[16,"Reunion of the Brothers",112],[16,"Illness at Panchala",114],[17,"His Own Life Story",116],[17,"Consecration of Shri Nar-Narayan",118],[17,"“What Will You Call Me?”",121],[17,"A Monkey Telling Beads",121],[17,"Sahajanand, the Sun",122],[18,"Consecration of Murtis in Bhuj",124],[18,"“Our Jadbharat”",124],[18,"Re-Union with Dharmakul",126],[18,"Not Mud but Sandalwood Paste",126],[19,"Shri Lakshmi-Narayan Consecrated in Vartal",128],[19,"Reception at Surat",128],[19,"Meeting with Bishop Heber",131],[19,"Dwarika’s Gomti in Vartal",134],[19,"Mandirs in Kathiawad",136],[20,"Shudras Become Like Brahmins",140],[20,"Birth of Shikshapatri",141],[20,"Murti-Pratishtha at Dholera",142],[21,"Appointment of the Mahants",144],[21,"“My Akshardham”",144],[21,"“Never Disobey the Shikshapatri”",145],[22,"Offered Shoes to the Sadhus",147],[22,"Murti-Pratishtha in Junagadh",147],[23,"Murti-Pratishtha in Gadhada",149],[23,"Reception in Bhavnagar",150],[23,"Imbibe Virtues",151],[24,"Had His Own Murti Drawn",153],[24,"Meeting with Governor Malcolm",153],[24,"Last Illness",156],[24,"Vows Taken",157],[24,"“I Want to Regain Health!”",159],[24,"Darshan to Kakabhai",160],[24,"“Mitha Vahala Kem Visaru”",161],[24,"Returns to Dham",163],[24,"“I Am Constantly Dwelling in You”",164]]},"sr":{"title":"Satsang Reader Part 2","paper":1,"offset":10,"end":69,"ch":[[1,"Sadguru Nityanand Swami",1],[2,"Premsakhi Premanand Swami",9],[3,"Mukundanand Varni (Mulji Brahmachari)",21],[4,"Acharya Ayodhyaprasadji Maharaj",29],[5,"Bhaktaraj Dada Khachar",33],[6,"Bhaktaraj Laduba",41],[7,"Swami Jaga Bhakta",49],[8,"Shri Krishnaji Ada",63]]},"pb":{"title":"Pragji Bhakta","paper":2,"offset":10,"end":66,"ch":[[1,"Early Childhood",1],[2,"Meeting Sadguru Gopalanand Swami",3],[3,"With Gunatitanand Swami in Junagadh",6],[4,"Worthy Recipient of Akshar-jnan",7],[5,"Request for Akshar-jnan",8],[6,"Do or Die for the Guru",9],[7,"Sixty-Eight Places of Pilgrimage at Thy Feet",12],[8,"Art of Saintliness",16],[9,"Bananas on a Cactus",18],[10,"Realization",19],[11,"The Key to Akshardham Lies with Pragji",22],[12,"Akshar-jnan Proclaimed",24],[13,"The Path of Thorns",26],[14,"Discord in the Fellowship",28],[15,"Excommunicated",30],[16,"Manifestation Through Pragji Bhagat",32],[17,"Acceptance in Satsang",33],[18,"Guru of Shastri Yagnapurushdasji",36],[19,"“I Am Possessed by Swaminarayan”",38],[20,"Trouble for Bhagatji’s Sadhus",39],[21,"Bliss in Solitude",42],[22,"End of Exile",44],[23,"Satsang with the Diwan of Vansda",46],[24,"Jnan Yagna in Ahmedabad",48],[25,"Bhagatji’s Magnetic Personality",51],[26,"Jal Jhilani Celebration in Gadhada",53],[27,"Grand Reception in Junagadh",56],[28,"The Last Phase",61],[29,"Divinity Revealed",63]]},"ksp":{"title":"Kishore Satsang Parichay","paper":2,"offset":10,"end":109,"ch":[[1,"Shikshapatri",1],[2,"Kirtan",7],[3,"Galuji",7],[4,"Bhalchandra Sheth (Bhaichandbhai)",10],[5,"Murti Puja",13],[6,"Glory of the Swaminarayan Mantra",15],[7,"Spirit of Friendship",15],[8,"Naja Jogiya",17],[9,"Mota Rambai",20],[10,"Mandirs",22],[11,"Shri Gurubhajan Stotram",39],[12,"Lakshmichand Sheth",42],[13,"Damodarbhai",45],[14,"Satsang",48],[15,"Vishnudas",53],[16,"Himraj Shah",54],[17,"Vachanamrut",59],[18,"Rajbai",63],[19,"Sundarji Suthar",66],[20,"Lila Chintamani",69],[21,"Niyams (Codes of Conduct)",78],[22,"Two Kathi Devotees from Gundali",81],[23,"Paramchaitanyanand Swami",84],[24,"Kirtan",88],[25,"Gunatitanand Swami’s Discourses",89],[26,"Swarupanand Swami",97],[27,"Dharma",100],[28,"Subhashit (Wise Sayings)",103],[29,"Gordhanbhai",106]]}},"p1":[{"id":"r1","ph":1,"kind":"read","book":"sc","a":1,"b":5,"title":"Swaminarayan – The Divine Mantra → Emptying Hell","items":["Swaminarayan – The Divine Mantra","Maharaj’s Routine","The Spread of Satsang","Emptying Hell"]},{"id":"r2","ph":1,"kind":"read","book":"sc","a":6,"b":15,"title":"Magniram Becomes Advaitanand → Realization to Muktanand Swami","items":["Magniram Becomes Advaitanand","Nishchay to Ramchandra Sheth","Experiences of Samadhi","Annakut in Loj","Realization to Muktanand Swami"]},{"id":"r3","ph":1,"kind":"read","book":"sc","a":16,"b":24,"title":"Excommunication of Harbai and Valbai → Protection of Mulji Sheth","items":["Excommunication of Harbai and Valbai","Darshan in Two Forms","A Fakir Is Shown a Miracle","Alms Distribution Activities","Sweeter Than Milk","Test of Sundarji Suthar","Protection of Mulji Sheth"]},{"id":"r4","ph":1,"kind":"read","book":"pb","a":1,"b":11,"title":"Early Childhood → Do or Die for the Guru","items":["Early Childhood","Meeting Sadguru Gopalanand Swami","With Gunatitanand Swami in Junagadh","Worthy Recipient of Akshar-jnan","Request for Akshar-jnan","Do or Die for the Guru"]},{"id":"r5","ph":1,"kind":"read","book":"pb","a":12,"b":21,"title":"Sixty-Eight Places of Pilgrimage at Thy Feet → Realization","items":["Sixty-Eight Places of Pilgrimage at Thy Feet","Art of Saintliness","Bananas on a Cactus","Realization"]},{"id":"r6","ph":1,"kind":"read","book":"pb","a":22,"b":31,"title":"The Key to Akshardham Lies with Pragji → Excommunicated","items":["The Key to Akshardham Lies with Pragji","Akshar-jnan Proclaimed","The Path of Thorns","Discord in the Fellowship","Excommunicated"]},{"id":"r7","ph":1,"kind":"read","book":"sr","a":1,"b":8,"title":"Sadguru Nityanand Swami","items":["Sadguru Nityanand Swami"]},{"id":"r8","ph":1,"kind":"read","book":"sr","a":9,"b":20,"title":"Premsakhi Premanand Swami","items":["Premsakhi Premanand Swami"]},{"id":"r9","ph":1,"kind":"read","book":"sr","a":21,"b":28,"title":"Mukundanand Varni (Mulji Brahmachari)","items":["Mukundanand Varni (Mulji Brahmachari)"]},{"id":"r10","ph":1,"kind":"read","book":"ksp","a":1,"b":9,"title":"Shikshapatri → Galuji","items":["Shikshapatri","Kirtan","Galuji"]},{"id":"r11","ph":1,"kind":"read","book":"ksp","a":10,"b":19,"title":"Bhalchandra Sheth (Bhaichandbhai) → Naja Jogiya","items":["Bhalchandra Sheth (Bhaichandbhai)","Murti Puja","Glory of the Swaminarayan Mantra","Spirit of Friendship","Naja Jogiya"]},{"id":"r12","ph":1,"kind":"read","book":"ksp","a":20,"b":29,"title":"Mota Rambai → Mandirs (part 1 of 2)","items":["Mota Rambai","Mandirs (part 1 of 2)"]},{"id":"r13","ph":1,"kind":"read","book":"sc","a":25,"b":33,"title":"Diksha to Lalji Suthar → Method of De-addiction","items":["Diksha to Lalji Suthar","Visits to Kariyani and Gadhada","Removed Imaginary Fears and Superstitions","Murti-Pratishtha of Shri Vasudev-Narayan","Shunned Precious Things","Method of De-addiction"]},{"id":"r14","ph":1,"kind":"read","book":"sc","a":34,"b":39,"title":"Bhattji’s Dilemma Solved → Initiation of Paramhansas","items":["Bhattji’s Dilemma Solved","Stopped Infanticide","Eradication of Sati custom","Initiation of Paramhansas"]},{"id":"r15","ph":1,"kind":"read","book":"sc","a":40,"b":48,"title":"The Greatness of Mulji Bhakta → Realization Comes to a Pathan","items":["The Greatness of Mulji Bhakta","Initiation to Eighteen Devotees","Opposed Killings During the Yagnas","Made Mukund Brahmachari Sit with Him","Practised What He Preached","Rigorous Tests for the Sadhus","Realization Comes to a Pathan"]},{"id":"r16","ph":1,"kind":"read","book":"ksp","a":30,"b":38,"title":"Mandirs (part 2 of 2)","items":["Mandirs (part 2 of 2)"]},{"id":"r17","ph":1,"kind":"read","book":"ksp","a":39,"b":47,"title":"Shri Gurubhajan Stotram → Damodarbhai","items":["Shri Gurubhajan Stotram","Lakshmichand Sheth","Damodarbhai"]},{"id":"r18","ph":1,"kind":"read","book":"ksp","a":48,"b":58,"title":"Satsang → Himraj Shah","items":["Satsang","Vishnudas","Himraj Shah"]},{"id":"r19","ph":1,"kind":"read","book":"sc","a":49,"b":57,"title":"A Dumb Recites the Vedas → The End of Jagjivan","items":["A Dumb Recites the Vedas","Learn Sanskrit","Non-Violent Yagna at Jetalpur","The Nuisance of Lolangar","The End of Jagjivan"]},{"id":"r20","ph":1,"kind":"read","book":"sc","a":58,"b":63,"title":"I Want to Liberate Them All → Sahajanand, the Just","items":["I Want to Liberate Them All","Yagna at Dabhan","“Have Mercy on Us”","Shriji Maharaj Attainable Through His Grace","Sahajanand, the Just"]},{"id":"r21","ph":1,"kind":"read","book":"sc","a":64,"b":72,"title":"Darshan of Dharma-Bhakti → Predicts Famine","items":["Darshan of Dharma-Bhakti","Shobharam Becomes Blind","Gift of Vision","Test of Jiva Khachar","Purified Speech","Manki’s Mount","Predicts Famine"]},{"id":"r22","ph":1,"kind":"read","book":"sr","a":29,"b":32,"title":"Acharya Ayodhyaprasadji Maharaj","items":["Acharya Ayodhyaprasadji Maharaj"]},{"id":"r23","ph":1,"kind":"read","book":"sr","a":33,"b":40,"title":"Bhaktaraj Dada Khachar","items":["Bhaktaraj Dada Khachar"]},{"id":"r24","ph":1,"kind":"read","book":"sr","a":41,"b":48,"title":"Bhaktaraj Laduba","items":["Bhaktaraj Laduba"]},{"id":"r25","ph":1,"kind":"read","book":"sc","a":73,"b":81,"title":"The Art of Liberation → Nawab’s Faith Vindicated","items":["The Art of Liberation","Discouraged Abusive Songs","The Glory of Gunatit","Nawab’s Faith Vindicated"]},{"id":"r26","ph":1,"kind":"read","book":"sc","a":82,"b":86,"title":"The Famine of 1869 → Dumb as Doves","items":["The Famine of 1869","End of Famine","Invited Illness at Jaliya","Dumb as Doves"]},{"id":"r27","ph":1,"kind":"read","book":"sc","a":87,"b":91,"title":"Succour to the Poor → Darshan in Twelve Forms","items":["Succour to the Poor","Throne of God","Reception at Dharampur","Prefection Through Purification","Darshan in Twelve Forms"]},{"id":"r28","ph":1,"kind":"read","book":"pb","a":32,"b":41,"title":"Manifestation Through Pragji Bhagat → Trouble for Bhagatji’s Sadhus","items":["Manifestation Through Pragji Bhagat","Acceptance in Satsang","Guru of Shastri Yagnapurushdasji","“I Am Possessed by Swaminarayan”","Trouble for Bhagatji’s Sadhus"]},{"id":"r29","ph":1,"kind":"read","book":"pb","a":42,"b":50,"title":"Bliss in Solitude → Jnan Yagna in Ahmedabad","items":["Bliss in Solitude","End of Exile","Satsang with the Diwan of Vansda","Jnan Yagna in Ahmedabad"]},{"id":"r30","ph":1,"kind":"read","book":"pb","a":51,"b":60,"title":"Bhagatji’s Magnetic Personality → Grand Reception in Junagadh","items":["Bhagatji’s Magnetic Personality","Jal Jhilani Celebration in Gadhada","Grand Reception in Junagadh"]},{"id":"r31","ph":1,"kind":"read","book":"ksp","a":59,"b":68,"title":"Vachanamrut → Sundarji Suthar","items":["Vachanamrut","Rajbai","Sundarji Suthar"]},{"id":"r32","ph":1,"kind":"read","book":"ksp","a":69,"b":77,"title":"Lila Chintamani","items":["Lila Chintamani"]},{"id":"r33","ph":1,"kind":"read","book":"ksp","a":78,"b":87,"title":"Niyams (Codes of Conduct) → Paramchaitanyanand Swami","items":["Niyams (Codes of Conduct)","Two Kathi Devotees from Gundali","Paramchaitanyanand Swami"]},{"id":"r34","ph":1,"kind":"read","book":"sc","a":92,"b":100,"title":"Code of Conduct for the Sadhus → Re-entry into Ahmedabad","items":["Code of Conduct for the Sadhus","Give Up Bad Nature","Stopped the Singing of Vulgar Songs","Pleased a Child","Defeat of Vedantacharya","Re-entry into Ahmedabad"]},{"id":"r35","ph":1,"kind":"read","book":"sc","a":101,"b":109,"title":"Insult at Anand → Maharaj’s Love for Children","items":["Insult at Anand","Appointment of Sadgurus","Explained the Sadhu Dharma","Maharaj’s Love for Children"]},{"id":"r36","ph":1,"kind":"read","book":"sc","a":110,"b":115,"title":"Six Objectives → Illness at Panchala","items":["Six Objectives","Vegetable Festival at Loya","Reunion of the Brothers","Illness at Panchala"]},{"id":"r37","ph":1,"kind":"read","book":"sr","a":49,"b":55,"title":"Swami Jaga Bhakta (part 1 of 2)","items":["Swami Jaga Bhakta (part 1 of 2)"]},{"id":"r38","ph":1,"kind":"read","book":"sr","a":56,"b":62,"title":"Swami Jaga Bhakta (part 2 of 2)","items":["Swami Jaga Bhakta (part 2 of 2)"]},{"id":"r39","ph":1,"kind":"read","book":"sr","a":63,"b":69,"title":"Shri Krishnaji Ada","items":["Shri Krishnaji Ada"]},{"id":"r40","ph":1,"kind":"read","book":"sc","a":116,"b":123,"title":"His Own Life Story → Sahajanand, the Sun","items":["His Own Life Story","Consecration of Shri Nar-Narayan","“What Will You Call Me?”","A Monkey Telling Beads","Sahajanand, the Sun"]},{"id":"r41","ph":1,"kind":"read","book":"sc","a":124,"b":133,"title":"Consecration of Murtis in Bhuj → Meeting with Bishop Heber","items":["Consecration of Murtis in Bhuj","“Our Jadbharat”","Re-Union with Dharmakul","Not Mud but Sandalwood Paste","Shri Lakshmi-Narayan Consecrated in Vartal","Reception at Surat","Meeting with Bishop Heber"]},{"id":"r42","ph":1,"kind":"read","book":"sc","a":134,"b":139,"title":"Dwarika’s Gomti in Vartal → Mandirs in Kathiawad","items":["Dwarika’s Gomti in Vartal","Mandirs in Kathiawad"]},{"id":"r43","ph":1,"kind":"read","book":"ksp","a":88,"b":96,"title":"Kirtan → Gunatitanand Swami’s Discourses","items":["Kirtan","Gunatitanand Swami’s Discourses"]},{"id":"r44","ph":1,"kind":"read","book":"ksp","a":97,"b":105,"title":"Swarupanand Swami → Subhashit (Wise Sayings)","items":["Swarupanand Swami","Dharma","Subhashit (Wise Sayings)"]},{"id":"r45","ph":1,"kind":"read","book":"ksp","a":106,"b":109,"title":"Gordhanbhai","items":["Gordhanbhai"]},{"id":"r46","ph":1,"kind":"read","book":"sc","a":140,"b":146,"title":"Shudras Become Like Brahmins → “Never Disobey the Shikshapatri”","items":["Shudras Become Like Brahmins","Birth of Shikshapatri","Murti-Pratishtha at Dholera","Appointment of the Mahants","“My Akshardham”","“Never Disobey the Shikshapatri”"]},{"id":"r47","ph":1,"kind":"read","book":"sc","a":147,"b":152,"title":"Offered Shoes to the Sadhus → Imbibe Virtues","items":["Offered Shoes to the Sadhus","Murti-Pratishtha in Junagadh","Murti-Pratishtha in Gadhada","Reception in Bhavnagar","Imbibe Virtues"]},{"id":"r48","ph":1,"kind":"read","book":"sc","a":153,"b":165,"title":"Had His Own Murti Drawn → “I Am Constantly Dwelling in You”","items":["Had His Own Murti Drawn","Meeting with Governor Malcolm","Last Illness","Vows Taken","“I Want to Regain Health!”","Darshan to Kakabhai","“Mitha Vahala Kem Visaru”","Returns to Dham","“I Am Constantly Dwelling in You”"]},{"id":"r49","ph":1,"kind":"read","book":"pb","a":61,"b":66,"title":"The Last Phase → Divinity Revealed","items":["The Last Phase","Divinity Revealed"]}],"p2":[{"ph":2,"kind":"review","book":"sc","a":1,"b":24,"title":"Review pp. 1–24","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v1"},{"ph":2,"kind":"review","book":"pb","a":1,"b":31,"title":"Review pp. 1–31","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v2"},{"ph":2,"kind":"review","book":"sr","a":1,"b":28,"title":"Review pp. 1–28","drill":"Give reasons: write 3 “why did…” questions and answer each in 2 to 3 lines.","id":"v3"},{"ph":2,"kind":"review","book":"ksp","a":1,"b":29,"title":"Review pp. 1–29","drill":"Quick fire: write 5 one sentence answers and 4 fill in the blanks. Ask Claude to quiz you.","id":"v4"},{"ph":2,"kind":"review","book":"sc","a":25,"b":48,"title":"Review pp. 25–48","drill":"Story order: list the key events in order and underline names, places and numbers.","id":"v5"},{"ph":2,"kind":"essay","title":"Essay practice (30 lines)","drill":"Write a 30 line essay on a recent BAPS mandir, festival or guru's vision. Plan first: intro, three points, closing. Time it at 20 minutes.","id":"v6"},{"ph":2,"kind":"review","book":"ksp","a":30,"b":58,"title":"Review pp. 30–58","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v7"},{"ph":2,"kind":"review","book":"sc","a":49,"b":72,"title":"Review pp. 49–72","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v8"},{"ph":2,"kind":"review","book":"sr","a":29,"b":48,"title":"Review pp. 29–48","drill":"Give reasons: write 3 “why did…” questions and answer each in 2 to 3 lines.","id":"v9"},{"ph":2,"kind":"review","book":"sc","a":73,"b":91,"title":"Review pp. 73–91","drill":"Quick fire: write 5 one sentence answers and 4 fill in the blanks. Ask Claude to quiz you.","id":"v10"},{"ph":2,"kind":"review","book":"pb","a":32,"b":60,"title":"Review pp. 32–60","drill":"Story order: list the key events in order and underline names, places and numbers.","id":"v11"},{"ph":2,"kind":"essay","title":"Essay practice (30 lines)","drill":"Write a 30 line essay on a recent BAPS mandir, festival or guru's vision. Plan first: intro, three points, closing. Time it at 20 minutes.","id":"v12"},{"ph":2,"kind":"review","book":"ksp","a":59,"b":87,"title":"Review pp. 59–87","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v13"},{"ph":2,"kind":"review","book":"sc","a":92,"b":115,"title":"Review pp. 92–115","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v14"},{"ph":2,"kind":"review","book":"sr","a":49,"b":69,"title":"Review pp. 49–69","drill":"Give reasons: write 3 “why did…” questions and answer each in 2 to 3 lines.","id":"v15"},{"ph":2,"kind":"review","book":"sc","a":116,"b":139,"title":"Review pp. 116–139","drill":"Quick fire: write 5 one sentence answers and 4 fill in the blanks. Ask Claude to quiz you.","id":"v16"},{"ph":2,"kind":"review","book":"ksp","a":88,"b":109,"title":"Review pp. 88–109","drill":"Story order: list the key events in order and underline names, places and numbers.","id":"v17"},{"ph":2,"kind":"essay","title":"Essay practice (30 lines)","drill":"Write a 30 line essay on a recent BAPS mandir, festival or guru's vision. Plan first: intro, three points, closing. Time it at 20 minutes.","id":"v18"},{"ph":2,"kind":"review","book":"sc","a":140,"b":165,"title":"Review pp. 140–165","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v19"},{"ph":2,"kind":"review","book":"pb","a":61,"b":66,"title":"Review pp. 61–66","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v20"}],"p3":[{"id":"x1","ph":3,"kind":"revise","book":"sc","a":1,"b":48,"title":"Revise pp. 1–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x2","ph":3,"kind":"revise","book":"pb","a":1,"b":41,"title":"Revise pp. 1–41","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x3","ph":3,"kind":"revise","book":"sr","a":1,"b":28,"title":"Revise pp. 1–28","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x4","ph":3,"kind":"revise","book":"ksp","a":1,"b":29,"title":"Revise pp. 1–29","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x5","ph":3,"kind":"weak","title":"Weak spots","drill":"Redo every quote card you missed this week and re-read your starred chapters."},{"id":"x6","ph":3,"kind":"revise","book":"sc","a":49,"b":91,"title":"Revise pp. 49–91","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x7","ph":3,"kind":"revise","book":"pb","a":42,"b":66,"title":"Revise pp. 42–66","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x8","ph":3,"kind":"revise","book":"sr","a":29,"b":48,"title":"Revise pp. 29–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x9","ph":3,"kind":"revise","book":"ksp","a":30,"b":58,"title":"Revise pp. 30–58","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x10","ph":3,"kind":"revise","book":"sc","a":92,"b":139,"title":"Revise pp. 92–139","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x11","ph":3,"kind":"revise","book":"sr","a":49,"b":69,"title":"Revise pp. 49–69","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x12","ph":3,"kind":"revise","book":"ksp","a":59,"b":87,"title":"Revise pp. 59–87","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x13","ph":3,"kind":"revise","book":"sc","a":140,"b":165,"title":"Revise pp. 140–165","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x14","ph":3,"kind":"revise","book":"ksp","a":88,"b":109,"title":"Revise pp. 88–109","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x1b","ph":3,"kind":"revise","book":"sc","a":1,"b":48,"title":"Revise pp. 1–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x2b","ph":3,"kind":"revise","book":"pb","a":1,"b":41,"title":"Revise pp. 1–41","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x3b","ph":3,"kind":"revise","book":"sr","a":1,"b":28,"title":"Revise pp. 1–28","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x4b","ph":3,"kind":"revise","book":"ksp","a":1,"b":29,"title":"Revise pp. 1–29","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x5b","ph":3,"kind":"weak","title":"Weak spots","drill":"Redo every quote card you missed this week and re-read your starred chapters."},{"id":"x6b","ph":3,"kind":"revise","book":"sc","a":49,"b":91,"title":"Revise pp. 49–91","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x7b","ph":3,"kind":"revise","book":"pb","a":42,"b":66,"title":"Revise pp. 42–66","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x8b","ph":3,"kind":"revise","book":"sr","a":29,"b":48,"title":"Revise pp. 29–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x9b","ph":3,"kind":"revise","book":"ksp","a":30,"b":58,"title":"Revise pp. 30–58","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x10b","ph":3,"kind":"revise","book":"sc","a":92,"b":139,"title":"Revise pp. 92–139","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x11b","ph":3,"kind":"revise","book":"sr","a":49,"b":69,"title":"Revise pp. 49–69","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x12b","ph":3,"kind":"revise","book":"ksp","a":59,"b":87,"title":"Revise pp. 59–87","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x13b","ph":3,"kind":"revise","book":"sc","a":140,"b":165,"title":"Revise pp. 140–165","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x14b","ph":3,"kind":"revise","book":"ksp","a":88,"b":109,"title":"Revise pp. 88–109","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."}],"mocks":[{"id":"m1","ph":3,"kind":"mock","title":"Mock exam: Paper 1 (past paper)","drill":"Sit the March 2026 past paper in 2 hours 15 minutes, pen and paper, no notes. Mark it with the solution paper."},{"id":"m2","ph":3,"kind":"mock","title":"Mock exam: Paper 2","drill":"Ask Claude for a practice Paper 2 in the same format, then sit it timed and send your answers for marking."}]};
+const DATA={"books":{"sc":{"title":"Sahajanand Charitra","paper":1,"offset":14,"end":165,"ch":[[1,"Swaminarayan – The Divine Mantra",1],[1,"Maharaj’s Routine",3],[1,"The Spread of Satsang",4],[1,"Emptying Hell",4],[2,"Magniram Becomes Advaitanand",6],[2,"Nishchay to Ramchandra Sheth",10],[2,"Experiences of Samadhi",11],[2,"Annakut in Loj",12],[2,"Realization to Muktanand Swami",12],[2,"Excommunication of Harbai and Valbai",16],[2,"Darshan in Two Forms",18],[3,"A Fakir Is Shown a Miracle",20],[3,"Alms Distribution Activities",20],[3,"Sweeter Than Milk",21],[3,"Test of Sundarji Suthar",22],[3,"Protection of Mulji Sheth",24],[3,"Diksha to Lalji Suthar",25],[4,"Visits to Kariyani and Gadhada",27],[4,"Removed Imaginary Fears and Superstitions",27],[4,"Murti-Pratishtha of Shri Vasudev-Narayan",30],[4,"Shunned Precious Things",31],[4,"Method of De-addiction",31],[5,"Bhattji’s Dilemma Solved",34],[5,"Stopped Infanticide",35],[5,"Eradication of Sati custom",36],[5,"Initiation of Paramhansas",37],[6,"The Greatness of Mulji Bhakta",40],[6,"Initiation to Eighteen Devotees",41],[6,"Opposed Killings During the Yagnas",42],[6,"Made Mukund Brahmachari Sit with Him",43],[6,"Practised What He Preached",44],[6,"Rigorous Tests for the Sadhus",45],[6,"Realization Comes to a Pathan",48],[7,"A Dumb Recites the Vedas",49],[7,"Learn Sanskrit",50],[7,"Non-Violent Yagna at Jetalpur",51],[7,"The Nuisance of Lolangar",54],[7,"The End of Jagjivan",56],[8,"I Want to Liberate Them All",58],[8,"Yagna at Dabhan",59],[8,"“Have Mercy on Us”",60],[8,"Shriji Maharaj Attainable Through His Grace",61],[8,"Sahajanand, the Just",62],[9,"Darshan of Dharma-Bhakti",64],[9,"Shobharam Becomes Blind",65],[9,"Gift of Vision",66],[10,"Test of Jiva Khachar",68],[10,"Purified Speech",69],[10,"Manki’s Mount",70],[10,"Predicts Famine",72],[10,"The Art of Liberation",73],[10,"Discouraged Abusive Songs",75],[10,"The Glory of Gunatit",77],[10,"Nawab’s Faith Vindicated",79],[11,"The Famine of 1869",82],[11,"End of Famine",83],[11,"Invited Illness at Jaliya",84],[11,"Dumb as Doves",85],[12,"Succour to the Poor",87],[12,"Throne of God",88],[12,"Reception at Dharampur",89],[12,"Prefection Through Purification",89],[12,"Darshan in Twelve Forms",90],[13,"Code of Conduct for the Sadhus",92],[13,"Give Up Bad Nature",92],[13,"Stopped the Singing of Vulgar Songs",93],[13,"Pleased a Child",94],[14,"Defeat of Vedantacharya",96],[14,"Re-entry into Ahmedabad",99],[14,"Insult at Anand",101],[15,"Appointment of Sadgurus",104],[15,"Explained the Sadhu Dharma",108],[15,"Maharaj’s Love for Children",108],[16,"Six Objectives",110],[16,"Vegetable Festival at Loya",111],[16,"Reunion of the Brothers",112],[16,"Illness at Panchala",114],[17,"His Own Life Story",116],[17,"Consecration of Shri Nar-Narayan",118],[17,"“What Will You Call Me?”",121],[17,"A Monkey Telling Beads",121],[17,"Sahajanand, the Sun",122],[18,"Consecration of Murtis in Bhuj",124],[18,"“Our Jadbharat”",124],[18,"Re-Union with Dharmakul",126],[18,"Not Mud but Sandalwood Paste",126],[19,"Shri Lakshmi-Narayan Consecrated in Vartal",128],[19,"Reception at Surat",128],[19,"Meeting with Bishop Heber",131],[19,"Dwarika’s Gomti in Vartal",134],[19,"Mandirs in Kathiawad",136],[20,"Shudras Become Like Brahmins",140],[20,"Birth of Shikshapatri",141],[20,"Murti-Pratishtha at Dholera",142],[21,"Appointment of the Mahants",144],[21,"“My Akshardham”",144],[21,"“Never Disobey the Shikshapatri”",145],[22,"Offered Shoes to the Sadhus",147],[22,"Murti-Pratishtha in Junagadh",147],[23,"Murti-Pratishtha in Gadhada",149],[23,"Reception in Bhavnagar",150],[23,"Imbibe Virtues",151],[24,"Had His Own Murti Drawn",153],[24,"Meeting with Governor Malcolm",153],[24,"Last Illness",156],[24,"Vows Taken",157],[24,"“I Want to Regain Health!”",159],[24,"Darshan to Kakabhai",160],[24,"“Mitha Vahala Kem Visaru”",161],[24,"Returns to Dham",163],[24,"“I Am Constantly Dwelling in You”",164]]},"sr":{"title":"Satsang Reader Part 2","paper":1,"offset":10,"end":69,"ch":[[1,"Sadguru Nityanand Swami",1],[2,"Premsakhi Premanand Swami",9],[3,"Mukundanand Varni (Mulji Brahmachari)",21],[4,"Acharya Ayodhyaprasadji Maharaj",29],[5,"Bhaktaraj Dada Khachar",33],[6,"Bhaktaraj Laduba",41],[7,"Swami Jaga Bhakta",49],[8,"Shri Krishnaji Ada",63]]},"pb":{"title":"Pragji Bhakta","paper":2,"offset":10,"end":66,"ch":[[1,"Early Childhood",1],[2,"Meeting Sadguru Gopalanand Swami",3],[3,"With Gunatitanand Swami in Junagadh",6],[4,"Worthy Recipient of Akshar-jnan",7],[5,"Request for Akshar-jnan",8],[6,"Do or Die for the Guru",9],[7,"Sixty-Eight Places of Pilgrimage at Thy Feet",12],[8,"Art of Saintliness",16],[9,"Bananas on a Cactus",18],[10,"Realization",19],[11,"The Key to Akshardham Lies with Pragji",22],[12,"Akshar-jnan Proclaimed",24],[13,"The Path of Thorns",26],[14,"Discord in the Fellowship",28],[15,"Excommunicated",30],[16,"Manifestation Through Pragji Bhagat",32],[17,"Acceptance in Satsang",33],[18,"Guru of Shastri Yagnapurushdasji",36],[19,"“I Am Possessed by Swaminarayan”",38],[20,"Trouble for Bhagatji’s Sadhus",39],[21,"Bliss in Solitude",42],[22,"End of Exile",44],[23,"Satsang with the Diwan of Vansda",46],[24,"Jnan Yagna in Ahmedabad",48],[25,"Bhagatji’s Magnetic Personality",51],[26,"Jal Jhilani Celebration in Gadhada",53],[27,"Grand Reception in Junagadh",56],[28,"The Last Phase",61],[29,"Divinity Revealed",63]]},"ksp":{"title":"Kishore Satsang Parichay","paper":2,"offset":10,"end":109,"ch":[[1,"Shikshapatri",1],[2,"Kirtan",7],[3,"Galuji",7],[4,"Bhalchandra Sheth (Bhaichandbhai)",10],[5,"Murti Puja",13],[6,"Glory of the Swaminarayan Mantra",15],[7,"Spirit of Friendship",15],[8,"Naja Jogiya",17],[9,"Mota Rambai",20],[10,"Mandirs",22],[11,"Shri Gurubhajan Stotram",39],[12,"Lakshmichand Sheth",42],[13,"Damodarbhai",45],[14,"Satsang",48],[15,"Vishnudas",53],[16,"Himraj Shah",54],[17,"Vachanamrut",59],[18,"Rajbai",63],[19,"Sundarji Suthar",66],[20,"Lila Chintamani",69],[21,"Niyams (Codes of Conduct)",78],[22,"Two Kathi Devotees from Gundali",81],[23,"Paramchaitanyanand Swami",84],[24,"Kirtan",88],[25,"Gunatitanand Swami’s Discourses",89],[26,"Swarupanand Swami",97],[27,"Dharma",100],[28,"Subhashit (Wise Sayings)",103],[29,"Gordhanbhai",106]]}},"p1":[{"id":"r1","ph":1,"kind":"read","book":"sc","a":1,"b":5,"title":"Swaminarayan – The Divine Mantra → Emptying Hell","items":["Swaminarayan – The Divine Mantra","Maharaj’s Routine","The Spread of Satsang","Emptying Hell"]},{"id":"r2","ph":1,"kind":"read","book":"sc","a":6,"b":15,"title":"Magniram Becomes Advaitanand → Realization to Muktanand Swami","items":["Magniram Becomes Advaitanand","Nishchay to Ramchandra Sheth","Experiences of Samadhi","Annakut in Loj","Realization to Muktanand Swami"]},{"id":"r3","ph":1,"kind":"read","book":"sc","a":16,"b":24,"title":"Excommunication of Harbai and Valbai → Protection of Mulji Sheth","items":["Excommunication of Harbai and Valbai","Darshan in Two Forms","A Fakir Is Shown a Miracle","Alms Distribution Activities","Sweeter Than Milk","Test of Sundarji Suthar","Protection of Mulji Sheth"]},{"id":"r4","ph":1,"kind":"read","book":"pb","a":1,"b":11,"title":"Early Childhood → Do or Die for the Guru","items":["Early Childhood","Meeting Sadguru Gopalanand Swami","With Gunatitanand Swami in Junagadh","Worthy Recipient of Akshar-jnan","Request for Akshar-jnan","Do or Die for the Guru"]},{"id":"r5","ph":1,"kind":"read","book":"pb","a":12,"b":21,"title":"Sixty-Eight Places of Pilgrimage at Thy Feet → Realization","items":["Sixty-Eight Places of Pilgrimage at Thy Feet","Art of Saintliness","Bananas on a Cactus","Realization"]},{"id":"r6","ph":1,"kind":"read","book":"pb","a":22,"b":31,"title":"The Key to Akshardham Lies with Pragji → Excommunicated","items":["The Key to Akshardham Lies with Pragji","Akshar-jnan Proclaimed","The Path of Thorns","Discord in the Fellowship","Excommunicated"]},{"id":"r7","ph":1,"kind":"read","book":"sr","a":1,"b":8,"title":"Sadguru Nityanand Swami","items":["Sadguru Nityanand Swami"]},{"id":"r8","ph":1,"kind":"read","book":"sr","a":9,"b":20,"title":"Premsakhi Premanand Swami","items":["Premsakhi Premanand Swami"]},{"id":"r9","ph":1,"kind":"read","book":"sr","a":21,"b":28,"title":"Mukundanand Varni (Mulji Brahmachari)","items":["Mukundanand Varni (Mulji Brahmachari)"]},{"id":"r10","ph":1,"kind":"read","book":"ksp","a":1,"b":9,"title":"Shikshapatri → Galuji","items":["Shikshapatri","Kirtan","Galuji"]},{"id":"r11","ph":1,"kind":"read","book":"ksp","a":10,"b":19,"title":"Bhalchandra Sheth (Bhaichandbhai) → Naja Jogiya","items":["Bhalchandra Sheth (Bhaichandbhai)","Murti Puja","Glory of the Swaminarayan Mantra","Spirit of Friendship","Naja Jogiya"]},{"id":"r12","ph":1,"kind":"read","book":"ksp","a":20,"b":29,"title":"Mota Rambai → Mandirs (part 1 of 2)","items":["Mota Rambai","Mandirs (part 1 of 2)"]},{"id":"r13","ph":1,"kind":"read","book":"sc","a":25,"b":33,"title":"Diksha to Lalji Suthar → Method of De-addiction","items":["Diksha to Lalji Suthar","Visits to Kariyani and Gadhada","Removed Imaginary Fears and Superstitions","Murti-Pratishtha of Shri Vasudev-Narayan","Shunned Precious Things","Method of De-addiction"]},{"id":"r14","ph":1,"kind":"read","book":"sc","a":34,"b":39,"title":"Bhattji’s Dilemma Solved → Initiation of Paramhansas","items":["Bhattji’s Dilemma Solved","Stopped Infanticide","Eradication of Sati custom","Initiation of Paramhansas"]},{"id":"r15","ph":1,"kind":"read","book":"sc","a":40,"b":48,"title":"The Greatness of Mulji Bhakta → Realization Comes to a Pathan","items":["The Greatness of Mulji Bhakta","Initiation to Eighteen Devotees","Opposed Killings During the Yagnas","Made Mukund Brahmachari Sit with Him","Practised What He Preached","Rigorous Tests for the Sadhus","Realization Comes to a Pathan"]},{"id":"r16","ph":1,"kind":"read","book":"ksp","a":30,"b":38,"title":"Mandirs (part 2 of 2)","items":["Mandirs (part 2 of 2)"]},{"id":"r17","ph":1,"kind":"read","book":"ksp","a":39,"b":47,"title":"Shri Gurubhajan Stotram → Damodarbhai","items":["Shri Gurubhajan Stotram","Lakshmichand Sheth","Damodarbhai"]},{"id":"r18","ph":1,"kind":"read","book":"ksp","a":48,"b":58,"title":"Satsang → Himraj Shah","items":["Satsang","Vishnudas","Himraj Shah"]},{"id":"r19","ph":1,"kind":"read","book":"sc","a":49,"b":57,"title":"A Dumb Recites the Vedas → The End of Jagjivan","items":["A Dumb Recites the Vedas","Learn Sanskrit","Non-Violent Yagna at Jetalpur","The Nuisance of Lolangar","The End of Jagjivan"]},{"id":"r20","ph":1,"kind":"read","book":"sc","a":58,"b":63,"title":"I Want to Liberate Them All → Sahajanand, the Just","items":["I Want to Liberate Them All","Yagna at Dabhan","“Have Mercy on Us”","Shriji Maharaj Attainable Through His Grace","Sahajanand, the Just"]},{"id":"r21","ph":1,"kind":"read","book":"sc","a":64,"b":72,"title":"Darshan of Dharma-Bhakti → Predicts Famine","items":["Darshan of Dharma-Bhakti","Shobharam Becomes Blind","Gift of Vision","Test of Jiva Khachar","Purified Speech","Manki’s Mount","Predicts Famine"]},{"id":"r22","ph":1,"kind":"read","book":"sr","a":29,"b":32,"title":"Acharya Ayodhyaprasadji Maharaj","items":["Acharya Ayodhyaprasadji Maharaj"]},{"id":"r23","ph":1,"kind":"read","book":"sr","a":33,"b":40,"title":"Bhaktaraj Dada Khachar","items":["Bhaktaraj Dada Khachar"]},{"id":"r24","ph":1,"kind":"read","book":"sr","a":41,"b":48,"title":"Bhaktaraj Laduba","items":["Bhaktaraj Laduba"]},{"id":"r25","ph":1,"kind":"read","book":"sc","a":73,"b":81,"title":"The Art of Liberation → Nawab’s Faith Vindicated","items":["The Art of Liberation","Discouraged Abusive Songs","The Glory of Gunatit","Nawab’s Faith Vindicated"]},{"id":"r26","ph":1,"kind":"read","book":"sc","a":82,"b":86,"title":"The Famine of 1869 → Dumb as Doves","items":["The Famine of 1869","End of Famine","Invited Illness at Jaliya","Dumb as Doves"]},{"id":"r27","ph":1,"kind":"read","book":"sc","a":87,"b":91,"title":"Succour to the Poor → Darshan in Twelve Forms","items":["Succour to the Poor","Throne of God","Reception at Dharampur","Prefection Through Purification","Darshan in Twelve Forms"]},{"id":"r28","ph":1,"kind":"read","book":"pb","a":32,"b":41,"title":"Manifestation Through Pragji Bhagat → Trouble for Bhagatji’s Sadhus","items":["Manifestation Through Pragji Bhagat","Acceptance in Satsang","Guru of Shastri Yagnapurushdasji","“I Am Possessed by Swaminarayan”","Trouble for Bhagatji’s Sadhus"]},{"id":"r29","ph":1,"kind":"read","book":"pb","a":42,"b":50,"title":"Bliss in Solitude → Jnan Yagna in Ahmedabad","items":["Bliss in Solitude","End of Exile","Satsang with the Diwan of Vansda","Jnan Yagna in Ahmedabad"]},{"id":"r30","ph":1,"kind":"read","book":"pb","a":51,"b":60,"title":"Bhagatji’s Magnetic Personality → Grand Reception in Junagadh","items":["Bhagatji’s Magnetic Personality","Jal Jhilani Celebration in Gadhada","Grand Reception in Junagadh"]},{"id":"r31","ph":1,"kind":"read","book":"ksp","a":59,"b":68,"title":"Vachanamrut → Sundarji Suthar","items":["Vachanamrut","Rajbai","Sundarji Suthar"]},{"id":"r32","ph":1,"kind":"read","book":"ksp","a":69,"b":77,"title":"Lila Chintamani","items":["Lila Chintamani"]},{"id":"r33","ph":1,"kind":"read","book":"ksp","a":78,"b":87,"title":"Niyams (Codes of Conduct) → Paramchaitanyanand Swami","items":["Niyams (Codes of Conduct)","Two Kathi Devotees from Gundali","Paramchaitanyanand Swami"]},{"id":"r34","ph":1,"kind":"read","book":"sc","a":92,"b":100,"title":"Code of Conduct for the Sadhus → Re-entry into Ahmedabad","items":["Code of Conduct for the Sadhus","Give Up Bad Nature","Stopped the Singing of Vulgar Songs","Pleased a Child","Defeat of Vedantacharya","Re-entry into Ahmedabad"]},{"id":"r35","ph":1,"kind":"read","book":"sc","a":101,"b":109,"title":"Insult at Anand → Maharaj’s Love for Children","items":["Insult at Anand","Appointment of Sadgurus","Explained the Sadhu Dharma","Maharaj’s Love for Children"]},{"id":"r36","ph":1,"kind":"read","book":"sc","a":110,"b":115,"title":"Six Objectives → Illness at Panchala","items":["Six Objectives","Vegetable Festival at Loya","Reunion of the Brothers","Illness at Panchala"]},{"id":"r37","ph":1,"kind":"read","book":"sr","a":49,"b":55,"title":"Swami Jaga Bhakta (part 1 of 2)","items":["Swami Jaga Bhakta (part 1 of 2)"]},{"id":"r38","ph":1,"kind":"read","book":"sr","a":56,"b":62,"title":"Swami Jaga Bhakta (part 2 of 2)","items":["Swami Jaga Bhakta (part 2 of 2)"]},{"id":"r39","ph":1,"kind":"read","book":"sr","a":63,"b":69,"title":"Shri Krishnaji Ada","items":["Shri Krishnaji Ada"]},{"id":"r40","ph":1,"kind":"read","book":"sc","a":116,"b":123,"title":"His Own Life Story → Sahajanand, the Sun","items":["His Own Life Story","Consecration of Shri Nar-Narayan","“What Will You Call Me?”","A Monkey Telling Beads","Sahajanand, the Sun"]},{"id":"r41","ph":1,"kind":"read","book":"sc","a":124,"b":133,"title":"Consecration of Murtis in Bhuj → Meeting with Bishop Heber","items":["Consecration of Murtis in Bhuj","“Our Jadbharat”","Re-Union with Dharmakul","Not Mud but Sandalwood Paste","Shri Lakshmi-Narayan Consecrated in Vartal","Reception at Surat","Meeting with Bishop Heber"]},{"id":"r42","ph":1,"kind":"read","book":"sc","a":134,"b":139,"title":"Dwarika’s Gomti in Vartal → Mandirs in Kathiawad","items":["Dwarika’s Gomti in Vartal","Mandirs in Kathiawad"]},{"id":"r43","ph":1,"kind":"read","book":"ksp","a":88,"b":96,"title":"Kirtan → Gunatitanand Swami’s Discourses","items":["Kirtan","Gunatitanand Swami’s Discourses"]},{"id":"r44","ph":1,"kind":"read","book":"ksp","a":97,"b":105,"title":"Swarupanand Swami → Subhashit (Wise Sayings)","items":["Swarupanand Swami","Dharma","Subhashit (Wise Sayings)"]},{"id":"r45","ph":1,"kind":"read","book":"ksp","a":106,"b":109,"title":"Gordhanbhai","items":["Gordhanbhai"]},{"id":"r46","ph":1,"kind":"read","book":"sc","a":140,"b":146,"title":"Shudras Become Like Brahmins → “Never Disobey the Shikshapatri”","items":["Shudras Become Like Brahmins","Birth of Shikshapatri","Murti-Pratishtha at Dholera","Appointment of the Mahants","“My Akshardham”","“Never Disobey the Shikshapatri”"]},{"id":"r47","ph":1,"kind":"read","book":"sc","a":147,"b":152,"title":"Offered Shoes to the Sadhus → Imbibe Virtues","items":["Offered Shoes to the Sadhus","Murti-Pratishtha in Junagadh","Murti-Pratishtha in Gadhada","Reception in Bhavnagar","Imbibe Virtues"]},{"id":"r48","ph":1,"kind":"read","book":"sc","a":153,"b":165,"title":"Had His Own Murti Drawn → “I Am Constantly Dwelling in You”","items":["Had His Own Murti Drawn","Meeting with Governor Malcolm","Last Illness","Vows Taken","“I Want to Regain Health!”","Darshan to Kakabhai","“Mitha Vahala Kem Visaru”","Returns to Dham","“I Am Constantly Dwelling in You”"]},{"id":"r49","ph":1,"kind":"read","book":"pb","a":61,"b":66,"title":"The Last Phase → Divinity Revealed","items":["The Last Phase","Divinity Revealed"]}],"p2":[{"ph":2,"kind":"review","book":"sc","a":1,"b":24,"title":"Review pp. 1–24","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v1"},{"ph":2,"kind":"review","book":"pb","a":1,"b":31,"title":"Review pp. 1–31","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v2"},{"ph":2,"kind":"review","book":"sr","a":1,"b":28,"title":"Review pp. 1–28","drill":"Give reasons: write 3 “why did…” questions and answer each in 2 to 3 lines.","id":"v3"},{"ph":2,"kind":"review","book":"ksp","a":1,"b":29,"title":"Review pp. 1–29","drill":"Quick fire: write 5 one sentence answers and 4 fill in the blanks. Ask Claude to quiz you.","id":"v4"},{"ph":2,"kind":"review","book":"sc","a":25,"b":48,"title":"Review pp. 25–48","drill":"Story order: list the key events in order and underline names, places and numbers.","id":"v5"},{"ph":2,"kind":"essay","title":"Essay practice (30 lines)","drill":"Write a 30 line essay on a recent BAPS mandir, festival or guru's vision. Plan first: intro, three points, closing. Time it at 20 minutes.","id":"v6"},{"ph":2,"kind":"review","book":"ksp","a":30,"b":58,"title":"Review pp. 30–58","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v7"},{"ph":2,"kind":"review","book":"sc","a":49,"b":72,"title":"Review pp. 49–72","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v8"},{"ph":2,"kind":"review","book":"sr","a":29,"b":48,"title":"Review pp. 29–48","drill":"Give reasons: write 3 “why did…” questions and answer each in 2 to 3 lines.","id":"v9"},{"ph":2,"kind":"review","book":"sc","a":73,"b":91,"title":"Review pp. 73–91","drill":"Quick fire: write 5 one sentence answers and 4 fill in the blanks. Ask Claude to quiz you.","id":"v10"},{"ph":2,"kind":"review","book":"pb","a":32,"b":60,"title":"Review pp. 32–60","drill":"Story order: list the key events in order and underline names, places and numbers.","id":"v11"},{"ph":2,"kind":"essay","title":"Essay practice (30 lines)","drill":"Write a 30 line essay on a recent BAPS mandir, festival or guru's vision. Plan first: intro, three points, closing. Time it at 20 minutes.","id":"v12"},{"ph":2,"kind":"review","book":"ksp","a":59,"b":87,"title":"Review pp. 59–87","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v13"},{"ph":2,"kind":"review","book":"sc","a":92,"b":115,"title":"Review pp. 92–115","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v14"},{"ph":2,"kind":"review","book":"sr","a":49,"b":69,"title":"Review pp. 49–69","drill":"Give reasons: write 3 “why did…” questions and answer each in 2 to 3 lines.","id":"v15"},{"ph":2,"kind":"review","book":"sc","a":116,"b":139,"title":"Review pp. 116–139","drill":"Quick fire: write 5 one sentence answers and 4 fill in the blanks. Ask Claude to quiz you.","id":"v16"},{"ph":2,"kind":"review","book":"ksp","a":88,"b":109,"title":"Review pp. 88–109","drill":"Story order: list the key events in order and underline names, places and numbers.","id":"v17"},{"ph":2,"kind":"essay","title":"Essay practice (30 lines)","drill":"Write a 30 line essay on a recent BAPS mandir, festival or guru's vision. Plan first: intro, three points, closing. Time it at 20 minutes.","id":"v18"},{"ph":2,"kind":"review","book":"sc","a":140,"b":165,"title":"Review pp. 140–165","drill":"Who said it: add 5 quote cards from these pages, then test yourself on every card so far.","id":"v19"},{"ph":2,"kind":"review","book":"pb","a":61,"b":66,"title":"Review pp. 61–66","drill":"Short note: pick one event and write 15 lines from memory. Check it against the book.","id":"v20"}],"p3":[{"id":"x1","ph":3,"kind":"revise","book":"sc","a":1,"b":48,"title":"Revise pp. 1–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x2","ph":3,"kind":"revise","book":"pb","a":1,"b":41,"title":"Revise pp. 1–41","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x3","ph":3,"kind":"revise","book":"sr","a":1,"b":28,"title":"Revise pp. 1–28","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x4","ph":3,"kind":"revise","book":"ksp","a":1,"b":29,"title":"Revise pp. 1–29","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x5","ph":3,"kind":"weak","title":"Weak spots","drill":"Redo every quote card you missed this week and re-read your starred chapters."},{"id":"x6","ph":3,"kind":"revise","book":"sc","a":49,"b":91,"title":"Revise pp. 49–91","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x7","ph":3,"kind":"revise","book":"pb","a":42,"b":66,"title":"Revise pp. 42–66","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x8","ph":3,"kind":"revise","book":"sr","a":29,"b":48,"title":"Revise pp. 29–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x9","ph":3,"kind":"revise","book":"ksp","a":30,"b":58,"title":"Revise pp. 30–58","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x10","ph":3,"kind":"revise","book":"sc","a":92,"b":139,"title":"Revise pp. 92–139","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x11","ph":3,"kind":"revise","book":"sr","a":49,"b":69,"title":"Revise pp. 49–69","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x12","ph":3,"kind":"revise","book":"ksp","a":59,"b":87,"title":"Revise pp. 59–87","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x13","ph":3,"kind":"revise","book":"sc","a":140,"b":165,"title":"Revise pp. 140–165","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x14","ph":3,"kind":"revise","book":"ksp","a":88,"b":109,"title":"Revise pp. 88–109","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x1b","ph":3,"kind":"revise","book":"sc","a":1,"b":48,"title":"Revise pp. 1–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x2b","ph":3,"kind":"revise","book":"pb","a":1,"b":41,"title":"Revise pp. 1–41","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x3b","ph":3,"kind":"revise","book":"sr","a":1,"b":28,"title":"Revise pp. 1–28","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x4b","ph":3,"kind":"revise","book":"ksp","a":1,"b":29,"title":"Revise pp. 1–29","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x5b","ph":3,"kind":"weak","title":"Weak spots","drill":"Redo every quote card you missed this week and re-read your starred chapters."},{"id":"x6b","ph":3,"kind":"revise","book":"sc","a":49,"b":91,"title":"Revise pp. 49–91","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x7b","ph":3,"kind":"revise","book":"pb","a":42,"b":66,"title":"Revise pp. 42–66","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x8b","ph":3,"kind":"revise","book":"sr","a":29,"b":48,"title":"Revise pp. 29–48","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x9b","ph":3,"kind":"revise","book":"ksp","a":30,"b":58,"title":"Revise pp. 30–58","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x10b","ph":3,"kind":"revise","book":"sc","a":92,"b":139,"title":"Revise pp. 92–139","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x11b","ph":3,"kind":"revise","book":"sr","a":49,"b":69,"title":"Revise pp. 49–69","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x12b","ph":3,"kind":"revise","book":"ksp","a":59,"b":87,"title":"Revise pp. 59–87","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x13b","ph":3,"kind":"revise","book":"sc","a":140,"b":165,"title":"Revise pp. 140–165","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."},{"id":"x14b","ph":3,"kind":"revise","book":"ksp","a":88,"b":109,"title":"Revise pp. 88–109","drill":"Read your summaries, then retest the quote cards for these pages. Re-read only what you got wrong."}],"mocks":[{"id":"m1","ph":3,"kind":"mock","title":"Mock exam: Paper 1 (past paper)","drill":"Sit the March 2026 past paper in 2 hours 15 minutes, pen and paper, no notes. Mark it with the solution paper."},{"id":"m2","ph":3,"kind":"mock","title":"Mock exam: Paper 2","drill":"Ask Claude for a practice Paper 2 in the same format, then sit it timed and send your answers for marking."}],"ed":{"pb":{"gu":{"off":3,"p":[1,3,6,6,8,9,13,17,18,19,21,23,25,27,29,30,31,34,35,37,39,41,42,44,46,48,50,55,57],"end":60},"hi":{"off":3,"p":[1,3,7,7,9,11,15,18,20,21,24,26,29,31,33,36,36,40,42,43,46,48,50,51,55,57,60,66,68],"end":71}},"ksp":{"gu":{"off":2,"p":[1,6,6,9,11,13,14,15,18,20,32,33,36,39,43,44,48,52,55,57,68,70,73,77,77,84,86,89,91],"end":94},"hi":{"off":2,"p":[1,7,8,11,14,16,16,18,21,23,36,38,41,44,48,50,55,60,63,66,76,78,82,86,86,94,98,101,103],"end":106}},"sr":{"gu":{"off":3,"p":[1,9,21,27,33,41,47,61],"end":67}},"sc":{"gu":{"off":4,"p":[2,4,4,5,6,10,11,13,13,16,17,19,20,21,22,24,25,26,27,29,30,30,32,33,35,36,38,39,40,41,42,43,46,46,47,49,51,52,54,55,56,57,58,59,60,61,62,64,65,68,69,71,72,74,76,77,78,79,81,82,83,83,84,85,86,87,87,88,89,91,93,96,97,98,99,100,102,104,106,108,109,110,111,112,113,113,114,114,117,120,122,125,126,128,129,129,130,131,132,132,133,135,136,136,139,140,142,142,144,145,146],"end":146},"hi":{"off":4,"p":[2,4,5,6,7,12,13,15,15,18,20,22,23,24,25,27,28,30,31,33,34,35,37,38,41,42,44,45,46,47,48,49,52,53,54,56,59,60,61,62,63,64,66,67,68,69,70,72,73,77,78,80,81,84,86,87,88,89,91,92,93,94,95,96,97,98,99,99,100,103,105,109,110,111,113,113,116,118,120,123,124,125,126,127,128,129,129,130,133,136,139,142,144,146,147,148,148,150,151,152,153,155,155,156,159,160,162,163,165,166,167],"end":168}}}};
 const B=DATA.books, BK=["sc","sr","pb","ksp"];
 const short={sc:"Sahajanand Charitra",sr:"Satsang Reader 2",pb:"Pragji Bhakta",ksp:"Kishore Satsang Parichay"};
 const $=s=>document.querySelector(s);
@@ -155,7 +263,7 @@ const fmt=(s,o={weekday:"short",month:"short",day:"numeric"})=>pd(s).toLocaleDat
 /* ---------- state ---------- */
 const DEF={v:1,upd:0,start:"2026-11-21",exam:"2027-02-28",sundays:false,
  off:["2026-11-26","2026-12-24","2026-12-25","2026-12-31","2027-01-01"],
- done:{},last:{},bm:{},adj:{},cards:[]};
+ done:{},last:{},bm:{},adj:{},cards:[],lang:"en",hl:{},rpos:{},rset:{fs:19,th:"auto",rate:1}};
 let S=JSON.parse(JSON.stringify(DEF));
 try{const l=JSON.parse(localStorage.getItem("spp-state")||"null");if(l&&l.v===1)S=Object.assign(S,l)}catch(e){}
 const fixExam=o=>{if(o.exam==="2027-03-07"&&!o.examSet)o.exam="2027-02-28";return o};fixExam(S);
@@ -200,7 +308,8 @@ function header(){$("#shelf").innerHTML=BK.map(b=>{const p=bookPct(b);return`<di
 /* ---------- task card ---------- */
 const kindName={read:"Read",review:"Recall and write",essay:"Essay",revise:"Revise",weak:"Weak spots",mock:"Mock exam"};
 const mins={read:"35–45 min",review:"40 min",essay:"30 min",revise:"30 min",weak:"30 min",mock:"2 h 15 min"};
-function steps(t){if(t.kind==="read")return`<p>Read pp. ${t.a}–${t.b}. Then close the book and write a 3 to 5 line summary from memory, and add a quote card for every important line someone says.</p>${t.items.length>1?`<p class="note">${t.items.map(esc).join(" · ")}</p>`:""}`;
+function edPages(t){const l=S.lang;if(l==="en"||!t.book||!t.a||!hasEd(t.book,l))return"";return` (${LN[l]} book pp. ${pageAt(t.book,l,secAt(t.book,"en",t.a))}–${pageAt(t.book,l,secAt(t.book,"en",t.b))})`}
+function steps(t){if(t.kind==="read")return`<p>Read pp. ${t.a}–${t.b}${edPages(t)}. Mark facts, quotes, reasons and lessons as you go. Then close the book, write a 3 to 5 line summary from memory, and make a quote card for every important line someone says.</p>${t.items.length>1?`<p class="note">${t.items.map(esc).join(" · ")}</p>`:""}`;
  return`<p>${esc(t.drill)}</p>`}
 function taskHTML(t,date){const d=S.done[t.id];const b=t.book?`<span class="tag">${esc(short[t.book])}</span>`:"";
  return`<div class="task ${d?"done":""}"><div class="meta"><span class="tag">${kindName[t.kind]}</span>${b}<span>${mins[t.kind]}</span>${date?`<span>${fmt(date)}</span>`:""}</div>
@@ -235,6 +344,7 @@ function planView(){const m=PL.map,td=todayS();const doneDates={};Object.entries
  let h=`<div class="set"><span>Exam date</span><input type="date" id="exD" value="${S.exam}"></div>
  <div class="set"><span>Plan start</span><input type="date" id="stD" value="${S.start}"></div>
  <div class="set"><label for="sun" style="margin:0">Use Sundays as study days</label><input type="checkbox" class="tog" id="sun" ${S.sundays?"checked":""}></div>
+ <div class="set"><label for="exL2" style="margin:0">Exam language</label><select id="exL2" class="exl" style="width:auto">${LANGS.map(l=>`<option value="${l}" ${S.lang===l?"selected":""}>${LN[l]}</option>`).join("")}</select></div>
  <div class="task"><h3>Backup and move progress</h3><p class="note">Progress saves on this device only. To move it, save a backup here and restore it on the other device. Last backup: ${S.lastBackup?fmt(S.lastBackup):"never"}.</p><div class="row"><button class="btn pri sm" data-bk="file">Save backup file</button><button class="btn sm" data-bk="copy">Copy backup</button><button class="btn sm" data-bk="restore">Restore</button></div><div id="bkMsg" class="note" role="status"></div></div>
  <p class="note">Weekdays have one session, Saturdays two, Sundays and holidays are spare. Busy on a day? Tap its date to mark it off and the plan shifts. Phase 1 reads everything once, phase 2 recalls and writes, phase 3 revises and runs two timed mocks.</p>`;
  const ex=pd(S.exam),st0=[S.start,...Object.values(S.done)].sort()[0];let d=pd(st0);while(d.getDay()!==1)d=add(d,-1);let ph=0;
@@ -251,17 +361,26 @@ function planView(){const m=PL.map,td=todayS();const doneDates={};Object.entries
 
 /* ---------- books ---------- */
 let pdfStore=null;
-function idb(){return new Promise((res)=>{try{const r=indexedDB.open("spp",1);r.onupgradeneeded=()=>r.result.createObjectStore("pdf");r.onsuccess=()=>res(r.result);r.onerror=()=>res(null)}catch(e){res(null)}})}
+function idb(){return new Promise((res)=>{try{const r=indexedDB.open("spp",2);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains("pdf"))d.createObjectStore("pdf");if(!d.objectStoreNames.contains("txt"))d.createObjectStore("txt")};r.onsuccess=()=>res(r.result);r.onerror=()=>res(null);r.onblocked=()=>res(null)}catch(e){res(null)}})}
 async function pdfGet(b){if(!pdfStore)return null;return new Promise(r=>{try{const q=pdfStore.transaction("pdf").objectStore("pdf").get(b);q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)}catch(e){r(null)}})}
 async function pdfPut(b,blob){if(!pdfStore)return false;return new Promise(r=>{try{const tx=pdfStore.transaction("pdf","readwrite");tx.objectStore("pdf").put(blob,b);tx.oncomplete=()=>r(true);tx.onerror=()=>r(false)}catch(e){r(false)}})}
+async function pdfKeys(){if(!pdfStore)return[];return new Promise(r=>{try{const q=pdfStore.transaction("pdf").objectStore("pdf").getAllKeys();q.onsuccess=()=>r(q.result||[]);q.onerror=()=>r([])}catch(e){r([])}})}
 const have={};let pendingBook=null;
-function guess(name){const n=name.toLowerCase();if(n.includes("sahajanand"))return"sc";if(n.includes("reader"))return"sr";if(n.includes("pragji"))return"pb";if(n.includes("kishore")||n.includes("parichay"))return"ksp";return null}
-function booksView(){let h=`<p>Add your own PDF copies of the four textbooks once on each phone or computer. They stay on that device. Progress, bookmarks and cards are saved on this device too: use Backup in the Plan tab to move them to another phone or computer.</p>
- <div class="row"><button class="btn pri" data-add="">Add PDFs</button></div>${pdfStore?"":`<div class="banner bad">This browser won't store PDFs here. Open the page in Safari or Chrome to read inside it.</div>`}`;
- for(const b of BK){const bm=(S.bm[b]||[]).slice().sort((a,c)=>a.p-c.p);const pct=bookPct(b);
-  h+=`<div class="book"><div class="cov"><i style="height:${pct}%"></i></div><div><h3>${esc(B[b].title)}</h3><div class="note">Paper ${B[b].paper} · ${pct}% read${S.last[b]?` · last on PDF page ${S.last[b]}`:""}</div>
-  <div class="row">${have[b]?`<button class="btn pri sm" data-open="${b}">${S.last[b]?"Continue":"Open"}</button>`:""}<button class="btn sm" data-add="${b}">${have[b]?"Replace PDF":"Add PDF"}</button></div>
-  ${bm.map(x=>`<div class="bm">★ <button data-open="${b}" data-raw="${x.p}">PDF p. ${x.p}${x.note?` · ${esc(x.note)}`:""}</button><button aria-label="Remove bookmark" data-delbm="${b}|${x.p}" style="color:var(--mute)">✕</button></div>`).join("")}</div></div>`}
+function guess(name){const n=name.toLowerCase();if(n.includes("sahajanand"))return"sc";if(/reader|vachanmala/.test(n))return"sr";if(/pra+g?a?ji|bhagatji/.test(n))return"pb";if(/kishor|parichay/.test(n))return"ksp";return null}
+const byPages={63:{gu:"pb"},75:{hi:"pb"},96:{gu:"ksp"},70:{gu:"sr"},81:{en:"pb"},84:{en:"sr"}};
+async function detectLang(d){let s="";for(let p=Math.min(d.numPages,4);p<=Math.min(d.numPages,10)&&s.length<5000;p++){try{const tc=await(await d.getPage(p)).getTextContent();s+=" "+tc.items.map(i=>i.str).join(" ")}catch(e){}}
+ const en=(s.match(/\b(the|and|of|was|his|to|in)\b/g)||[]).length;if(en>=25)return"en";
+ const gu=(s.match(/[ëÞÜß]/g)||[]).length,hi=(s.match(/[æÙ×Ú]/g)||[]).length;return gu>=hi?"gu":"hi"}
+function bmList(b){return LANGS.flatMap(l=>(S.bm[keyOf(b,l)]||[]).map(x=>({...x,l}))).sort((a,c)=>a.p-c.p)}
+function booksView(){let h=`<p>Add your own PDF copies of the textbooks once on each phone or computer, in English, ગુજરાતી or हिन्दी. The app works out which book and language each file is. The files, your progress, marks and cards are saved on this device. Use Backup in the Plan tab to move them to another phone or computer.</p>
+ <div class="row"><button class="btn pri" data-add="">Add PDFs</button></div>${pdfStore?"":`<div class="banner bad">This browser won't store PDFs here. Open the page in Safari or Chrome to read inside it.</div>`}
+ <div class="set"><label for="exL" style="margin:0">I'm writing the exam in</label><select id="exL" class="exl" style="width:auto">${LANGS.map(l=>`<option value="${l}" ${S.lang===l?"selected":""}>${LN[l]}</option>`).join("")}</select></div>`;
+ for(const b of BK){const bm=bmList(b),pct=bookPct(b),any=langsOf(b).length,nh=(S.hl&&S.hl[b]||[]).length;
+  const eds=LANGS.filter(l=>hasEd(b,l)).map(l=>`<span class="tag" lang="${l}" style="${have[keyOf(b,l)]?"":"opacity:.55"}">${have[keyOf(b,l)]?"✓ ":"+ "}${LN[l]}</span>`).join(" ");
+  h+=`<div class="book"><div class="cov"><i style="height:${pct}%"></i></div><div><h3>${esc(B[b].title)}</h3><div class="note">Paper ${B[b].paper} · ${pct}% read${nh?` · ${nh} mark${nh>1?"s":""}`:""}</div>
+  <div class="row" style="margin-top:6px">${eds}</div>
+  <div class="row">${any?`<button class="btn pri sm" data-open="${b}">${S.rpos&&S.rpos[b]||S.last[b]?"Continue":"Open"}</button>`:""}<button class="btn sm" data-add="${b}">Add PDF</button></div>
+  ${bm.map(x=>`<div class="bm">★ <button data-open="${b}" ${x.bid&&x.l==="en"?`data-bid="${esc(x.bid)}"`:`data-raw="${x.p}" data-lang="${x.l}"`}>${x.l!=="en"?LN[x.l]+" · ":""}PDF p. ${x.p}${x.note?` · ${esc(x.note)}`:""}</button><button aria-label="Remove bookmark" data-delbm="${keyOf(b,x.l)}|${x.p}" style="color:var(--mute)">✕</button></div>`).join("")}</div></div>`}
  $("#books").innerHTML=h}
 
 /* ---------- cards ---------- */
@@ -291,8 +410,8 @@ document.addEventListener("click",async e=>{const el=e.target.closest("button,in
  else if(D.off){const i=S.off.indexOf(D.off);i<0?S.off.push(D.off):S.off.splice(i,1);save();render()}
  else if(D.goto)tab(D.goto);
  else if(D.add!==undefined){pendingBook=D.add||null;$("#fileIn").click()}
- else if(D.open){if(!have[D.open]){tab("books");return}const off=S.adj[D.open]??B[D.open].offset;openReader(D.open,D.raw?+D.raw:D.pg?+D.pg+off:null)}
- else if(D.delbm){const[b,p]=D.delbm.split("|");S.bm[b]=(S.bm[b]||[]).filter(x=>x.p!==+p);save();render()}
+ else if(D.open){if(!langsOf(D.open).length){tab("books");return}openReader(D.open,D.raw?{raw:+D.raw,l:D.lang||"en"}:D.bid?{bid:D.bid,l:"en"}:D.pg?{page:+D.pg}:{})}
+ else if(D.delbm){const[k,p]=D.delbm.split("|");S.bm[k]=(S.bm[k]||[]).filter(x=>x.p!==+p);save();render()}
  else if(D.rev){const td=todayS();const due=S.cards.filter(c=>(c.due||"")<=td);if(due.length){rev=due[0].id;showAns=false;cardsView()}}
  else if(D.show){showAns=true;cardsView()}
  else if(D.grade!==undefined){const c=S.cards.find(x=>x.id===rev);if(c){c.box=D.grade==="1"?Math.min(4,(c.box||0)+1):0;c.due=iso(add(new Date(),IV[c.box]));save()}
@@ -304,66 +423,498 @@ document.addEventListener("click",async e=>{const el=e.target.closest("button,in
   else{sheetMain(`<h3>Restore a backup</h3><p class="note">This replaces the progress on this device.</p><label for="rsT">Paste backup text</label><textarea id="rsT"></textarea><div class="row"><button class="btn pri" id="rsGo">Restore pasted text</button><button class="btn" id="rsF">Choose backup file</button><button class="btn" id="rsX">Cancel</button></div><input type="file" id="rsIn" accept=".json,application/json" hidden>`)}}
  else if(D.delc){S.cards=S.cards.filter(c=>c.id!==D.delc);save();render()}});
 document.addEventListener("change",e=>{const t=e.target;if(t.id==="exD"&&t.value){S.exam=t.value;S.examSet=true;save();render()}
- if(t.id==="stD"&&t.value){S.start=t.value;save();render()}if(t.id==="sun"){S.sundays=t.checked;save();render()}});
-$("#fileIn").onchange=async e=>{const fs=[...e.target.files];let miss=[];
- for(const f of fs){const b=(fs.length===1&&pendingBook)||guess(f.name)||(fs.length===1?pendingBook:null);if(!b){miss.push(f.name);continue}
-  if(await pdfPut(b,f))have[b]=true}
- e.target.value="";render();tab("books");
- if(miss.length)$("#books").insertAdjacentHTML("afterbegin",`<div class="banner bad">Couldn't tell which book ${miss.map(esc).join(", ")} is. Use the Add PDF button on that book instead.</div>`)};
-
+ if(t.id==="stD"&&t.value){S.start=t.value;save();render()}if(t.id==="sun"){S.sundays=t.checked;save();render()}if(t.classList.contains("exl")){S.lang=t.value;save();render()}});
 function restoreFrom(txt){try{const r=JSON.parse(txt);if(!r||r.v!==1||!r.done)throw 0;S=fixExam(Object.assign(JSON.parse(JSON.stringify(DEF)),r));save();closeMain();render();tab("today");return true}catch(e){return false}}
 function closeMain(){const m=$("#modal");if(m)m.remove()}
 function sheetMain(h){closeMain();document.body.insertAdjacentHTML("beforeend",`<div id="modal" style="position:fixed;inset:0;z-index:25;background:rgba(0,0,0,.4);display:flex;align-items:flex-end"><div style="background:var(--bg);width:100%;max-width:760px;margin:0 auto;border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))">${h}</div></div>`);
  $("#rsX").onclick=closeMain;$("#rsGo").onclick=()=>{if(!restoreFrom($("#rsT").value))$("#rsT").insertAdjacentHTML("afterend",`<p class="note" style="color:var(--warn)">That doesn't look like a backup.</p>`)};
  $("#rsF").onclick=()=>$("#rsIn").click();$("#rsIn").onchange=async e=>{const f=e.target.files[0];if(f&&!restoreFrom(await f.text()))alertBox("That file isn't a backup.")}}
-/* ---------- reader ---------- */
-let R={b:null,doc:null,zoom:1,cur:1,obs:null,vis:null,ratio:1.4,saveT:null};
+$("#fileIn").onchange=async e=>{const fs=[...e.target.files];e.target.value="";const done=[],miss=[];
+ $("#books").insertAdjacentHTML("afterbegin",`<div class="banner" id="addMsg">Adding ${fs.length} file${fs.length>1?"s":""}…</div>`);
+ for(const f of fs){let b=(fs.length===1&&pendingBook)||guess(f.name)||null,l=/hindi/i.test(f.name)?"hi":/gujarati/i.test(f.name)?"gu":null;
+  if(!l||!b){try{const lib=await loadPdfLib();const d=await lib.getDocument({data:await f.arrayBuffer()}).promise;if(!l)l=await detectLang(d);if(!b)b=(byPages[d.numPages]||{})[l]||null;d.destroy()}catch(x){}}
+  if(!b||!l||!hasEd(b,l)){miss.push(f.name);continue}
+  const k=keyOf(b,l);dropDoc(k);if(await pdfPut(k,f)){have[k]=true;done.push(`${short[b]} (${LN[l]})`);if(l==="en"&&T&&T.b===b)T=null}}
+ render();tab("books");
+ if(done.length)$("#books").insertAdjacentHTML("afterbegin",`<div class="banner good">Added ${done.map(esc).join(", ")}.</div>`);
+ if(miss.length)$("#books").insertAdjacentHTML("afterbegin",`<div class="banner bad">Couldn't tell which book ${miss.map(esc).join(", ")} is. Use the Add PDF button on that book instead.</div>`)};
+
+/* Reflow extraction: turns the pages of an English textbook PDF into reading blocks.
+   Runs on the reader's own device; nothing leaves it. */
+const EXV=3;
+async function extractBook(doc,first,lastP,prog){
+ const pages=[],fontChars={},hChars={};
+ for(let p=first;p<=lastP;p++){
+  const pg=await doc.getPage(p),vp=pg.getViewport({scale:1}),tc=await pg.getTextContent();
+  const its=[];
+  for(const it of tc.items){if(!it.str)continue;const x=it.transform[4],y=it.transform[5],h=Math.round((it.height||Math.abs(it.transform[3]))*10)/10;
+   its.push({s:it.str,x,y,w:it.width,h,f:it.fontName});
+   if(h>0&&it.str.trim()){const n=it.str.length;fontChars[it.fontName]=(fontChars[it.fontName]||0)+n;const k=Math.round(h*2)/2;hChars[k]=(hChars[k]||0)+n}}
+  pages.push({p,W:vp.width,H:vp.height,its});
+  if(prog&&p%4===0){prog((p-first)/(lastP-first+1));await new Promise(r=>setTimeout(r,0))}
+ }
+ const body=+Object.entries(hChars).sort((a,b)=>b[1]-a[1])[0][0];
+ const near=(h,t)=>Math.abs(h-t)<=Math.max(.8,t*.07);
+ /* lines */
+ for(const P of pages){
+  const its=P.its.slice().sort((a,b)=>b.y-a.y||a.x-b.x),L=[];
+  for(const it of its){const hh=it.h||body;let ln=L.find(l=>Math.abs(l.y-it.y)<Math.max(2,.6*Math.max(hh,l.h)));
+   if(!ln){ln={y:it.y,h:0,its:[]};L.push(ln)}ln.its.push(it);if(it.s.trim()&&it.h>ln.h){ln.h=it.h;ln.y=it.y}}
+  for(const l of L){l.its.sort((a,b)=>a.x-b.x);const vis=l.its.filter(i=>i.s.trim());
+   l.x0=vis.length?vis[0].x:0;l.x1=vis.length?Math.max(...vis.map(i=>i.x+i.w)):0;
+   // dominant height by chars
+   const hc={};vis.forEach(i=>{hc[i.h]=(hc[i.h]||0)+i.s.length});l.h=+(Object.entries(hc).sort((a,b)=>b[1]-a[1])[0]||[body])[0];
+   let t="",segs=[],prev=null;
+   for(const i of l.its){let s=i.s;
+    if(prev&&s.trim()&&prev.s.trim()&&!/\s$/.test(t)&&i.x-(prev.x+prev.w)>Math.max(1.2,.18*(i.h||body)))t+=" ";
+    if(!s.trim()){if(t&&!/\s$/.test(t))t+=" ";prev=i;continue}
+    segs.push({a:t.length,b:t.length+s.length,f:i.f,h:i.h});t+=s;prev=i}
+   l.t=t.replace(/\s+$/,"");l.segs=segs}
+  P.L=L.filter(l=>l.t.trim()).sort((a,b)=>b.y-a.y);
+  const bl=P.L.filter(l=>near(l.h,body));
+  P.left=bl.length?Math.min(...bl.map(l=>l.x0)):45;P.right=bl.length?Math.max(...bl.map(l=>l.x1)):P.W-45;
+  // running headers and footers
+  const pn=/^\s*([0-9]{1,3}|[ivxlc]{1,6})\s|\s([0-9]{1,3}|[ivxlc]{1,6})\s*$|^\s*[0-9]{1,3}\s*$|[a-z)’'.]\s?\d{1,3}$|^\d{1,3}\s?[A-Z]|^[ivxlc]{1,5}[A-Z]/;
+  const drop=l=>(l.y>P.H*.9||l.y<P.H*.1)&&(pn.test(l.t)||l.h<body*.85);
+  while(P.L.length&&drop(P.L[0]))P.L.shift();
+  while(P.L.length&&drop(P.L[P.L.length-1]))P.L.pop();
+ }
+ /* body font per page: the font with the most characters book-wide among the page's body items */
+ for(const P of pages){const fs=new Set();P.L.forEach(l=>{if(near(l.h,body))l.segs.forEach(s=>{if(near(s.h,body))fs.add(s.f)})});
+  P.bf=[...fs].sort((a,b)=>(fontChars[b]||0)-(fontChars[a]||0))[0]}
+ /* blocks */
+ const B=[],caps=t=>{const L=t.replace(/[^A-Za-z]/g,"");return L.length>=3&&L.replace(/[^A-Z]/g,"").length/L.length>.85};
+ let cur=null,last=null,pend=[],bullet=false,inG=false;
+ const flush=()=>{B.push(...pend);pend=[]};
+ const close=()=>{if(cur){B.push(cur);cur=null}flush()};
+ const lineIt=(l,P,off)=>l.segs.filter(s=>P.bf&&s.f!==P.bf&&near(s.h,body)).map(s=>[s.a+off,s.b+off]);
+ for(const P of pages){let firstBody=true;
+  for(const l of P.L){
+   const big=l.h>=body*1.2,small=l.h<body*.85;
+   if(big){if(/^glossary$/i.test(l.t.trim()))inG=true;if(cur&&cur.k==="h"&&near(cur.sz,l.h)&&cur.pg===P.p){cur.x+=" "+l.t}else{close();cur={k:"h",sz:l.h,x:l.t,pg:P.p}}last=null;continue}
+   if(small){const tk=l.t.trim().split(/\s+/);if(tk.length>=2&&tk.length<=6&&tk.every(x=>x.length===1)){close();B.push({k:"hr",x:"",pg:P.p});last=null;continue}
+    if(/^[l\u2022\u25cf\u25aa\uf06c\uf0b7]$/.test(l.t.trim())){close();bullet=true;last=null;continue}
+    const fn=/^\d{1,2}\.?\s/.test(l.t)&&l.y<P.H*.3,z=pend[pend.length-1];
+    if(z&&z.pg===P.p&&!(fn&&z.k==="cap"))z.x+=" "+l.t;else pend.push({k:fn?"fn":"cap",x:l.t,pg:P.p});continue}
+   if(inG){const it=lineIt(l,P,0);
+    if(it.length&&it[0][0]===0){close();cur={k:"gl",x:l.t,pg:P.p,it}}
+    else if(cur&&cur.k==="gl"){const off=cur.x.length+1;cur.x+=" "+l.t;cur.it.push(...it.map(([a,c])=>[a+off,c+off]))}
+    else{close();cur={k:"p",x:l.t,pg:P.p,it,n:1}}last=null;continue}
+   const indent=l.x0>P.left+7,short=x1=>x1<P.right-22;
+   if(caps(l.t)&&short(l.x1)&&(!cur||cur.k!=="p"||(last&&short(last.x1)))&&!/[a-z]/.test(l.t)){close();cur={k:"h4",x:l.t,pg:P.p};close();last=null;continue}
+   let cont=cur&&cur.k==="p"&&!indent&&last&&!short(last.x1);
+   if(cont&&last&&last.P===P&&last.y-l.y>body*2.2)cont=false;
+   if(cont&&firstBody&&last&&last.P!==P)cont=true;
+   if(cont){let x=cur.x;const m=/[\u0002­]$/.test(x);if(m)x=x.slice(0,-1);
+    const join=m||/[A-Za-z]-$/.test(x)?"":" ";const off=x.length+join.length;
+    if(last.P!==P)(cur.br=cur.br||[]).push([off,P.p]);
+    cur.x=x+join+l.t;cur.it.push(...lineIt(l,P,off));cur.n++;cur.sh=short(l.x1);cur.ind=cur.ind}
+   else{close();cur={k:"p",x:l.t,pg:P.p,it:lineIt(l,P,0),n:1,ind:indent,sh:short(l.x1)};if(bullet){cur.li=1;bullet=false}}
+   last={x1:l.x1,y:l.y,P};firstBody=false}
+ }
+ close();
+ /* verse: runs of 2+ non-indented one-line short paragraphs */
+ const out=[];
+ for(let i=0;i<B.length;i++){const b=B[i];
+  if(b.k==="p"&&b.n===1&&b.sh&&!b.ind&&!b.li){let j=i;while(j+1<B.length&&B[j+1].k==="p"&&B[j+1].n===1&&!B[j+1].ind&&(B[j+1].sh||j+2>=B.length||B[j+2].k!=="p"||B[j+2].n!==1||!B[j+2].ind))j++;
+   if(j>i){const v={k:"v",x:"",pg:b.pg,it:[]};for(let q=i;q<=j;q++){const off=v.x.length+(q>i?1:0);if(q>i){v.x+="\n";if(B[q].pg!==B[q-1].pg)(v.br=v.br||[]).push([off,B[q].pg])}
+    v.it.push(...B[q].it.map(([a,c])=>[a+off,c+off]));v.x+=B[q].x}out.push(v);i=j;continue}}
+  out.push(b)}
+ /* ids, merged italics, tidy */
+ const cnt={};for(const b of out){cnt[b.pg]=(cnt[b.pg]||0)+1;b.id=b.pg+"."+cnt[b.pg];
+  if(b.it){b.it.sort((a,c)=>a[0]-c[0]);const m=[];for(const r of b.it){const z=m[m.length-1];if(z&&r[0]<=z[1]+1&&/^\s*$/.test(b.x.slice(z[1],r[0])))z[1]=Math.max(z[1],r[1]);else m.push(r.slice())}b.it=m.length?m:undefined}
+  delete b.n;delete b.sh;delete b.ind;if(b.k!=="h")delete b.sz;b.x=b.x.replace(/[\u0002­]/g,"")}
+ const hs=[...new Set(out.filter(b=>b.k==="h").map(b=>Math.round(b.sz)))].sort((a,b)=>b-a);
+ out.forEach(b=>{if(b.k==="h"){b.lv=hs.indexOf(Math.round(b.sz));delete b.sz}});
+ return{v:EXV,body,blocks:out}}
+
+/* Map the book's chapter list onto the blocks: returns [blockIndex per chapter entry] and inserts titles where none matched. */
+function sectionize(blocks,ch,off){
+ const norm=s=>String(s).toLowerCase().normalize("NFD").replace(/^\s*(chapter\s+)?\d+\s*[.)]?\s*/,"").replace(/[^a-z]/g,"");
+ const same=(a,b)=>a&&b&&(a===b||(a.length>=8&&b.length>=8&&(a.startsWith(b.slice(0,14))||b.startsWith(a.slice(0,14)))));
+ const starts=[];let from=0;
+ ch.forEach(([c,t,p],i)=>{const pdf=p+off,nt=norm(t);let hit=-1;
+  for(let j=from;j<blocks.length&&blocks[j].pg<=pdf+1;j++){const b=blocks[j];if(b.pg<pdf-1)continue;
+   if((b.k==="h"||b.k==="h4"||b.k==="p"&&b.x.length<90)&&same(norm(b.x),nt)){hit=j;break}}
+  if(hit<0){hit=blocks.findIndex((b,j)=>j>=from&&b.pg>=pdf);if(hit<0)hit=blocks.length;blocks.splice(hit,0,{k:"st",x:t,pg:pdf,id:"s"+i,syn:1})}
+  else{blocks[hit].k="st";delete blocks[hit].lv;const pv=blocks[hit-1];if(pv&&hit-1>=from&&(pv.k==="h"||pv.k==="h4")&&/^(chapter|prakaran)\s*\d+$/i.test(pv.x.trim()))pv.hide=1}
+  starts.push(hit);from=hit+1});
+ return starts}
+
+/* ---------- reader: shared ---------- */
+const LN={en:"English",gu:"ગુજરાતી",hi:"हिन्दी"},LS={en:"EN",gu:"ગુ",hi:"हि"},LANGS=["en","gu","hi"];
+const ED=DATA.ed||{};
+const keyOf=(b,l)=>l==="en"?b:b+":"+l;
+const hasEd=(b,l)=>l==="en"||!!(ED[b]&&ED[b][l]);
+const offOf=(b,l)=>S.adj[keyOf(b,l)]??(l==="en"?B[b].offset:ED[b][l].off);
+const chPages=(b,l)=>l==="en"?B[b].ch.map(c=>c[2]):ED[b][l].p;
+const endOf=(b,l)=>l==="en"?B[b].end:ED[b][l].end;
+const langsOf=b=>LANGS.filter(l=>have[keyOf(b,l)]);
+function secAt(b,l,pr){const P=chPages(b,l);let i=0;for(let j=0;j<P.length;j++)if(P[j]<=pr)i=j;const a=P[i],z=i+1<P.length?P[i+1]:endOf(b,l)+1;return{i,f:z>a?Math.min(.999,Math.max(0,(pr-a)/(z-a))):0}}
+function pageAt(b,l,s){const P=chPages(b,l),a=P[s.i],z=s.i+1<P.length?P[s.i+1]:endOf(b,l)+1;return z>a?Math.min(z-1,Math.floor(a+s.f*(z-a))):a}
+const KINDS=[["fact","Fact","Names, places, dates, numbers"],["quote","Quote","Someone speaks: who said it, to whom, when"],["why","Why","A reason or cause: give-reasons answers"],["lesson","Lesson","A teaching or moral: short notes and essays"],["event","Event","A key moment: story order"],["word","Word","A word to learn"],["note","Note","Your own note"]];
+const KN=Object.fromEntries(KINDS.map(k=>[k[0],k[1]]));
+let docs={};
+async function getDoc(key){if(docs[key])return docs[key];const blob=await pdfGet(key);const lib=await loadPdfLib();if(!blob||!lib)return null;
+ const d=await lib.getDocument({data:await blob.arrayBuffer()}).promise;docs[key]=d;
+ const ks=Object.keys(docs);if(ks.length>3)for(const k of ks)if(k!==key&&k!==R.key&&k!==C.key){try{docs[k].destroy()}catch(e){}delete docs[k];break}
+ return d}
+function dropDoc(key){if(docs[key]){try{docs[key].destroy()}catch(e){}delete docs[key]}}
 async function loadPdfLib(){if(window.pdfjsLib)return window.pdfjsLib;for(let i=0;i<50&&!window.pdfjsLib;i++)await new Promise(r=>setTimeout(r,100));return window.pdfjsLib||null}
-async function openReader(b,page){const lib=await loadPdfLib();const blob=await pdfGet(b);
- if(!lib||!blob){alertBox("The reader couldn't load. Check your connection and try again.");return}
- $("#reader").hidden=false;$("#rTitle").textContent=B[b].title;$("#pages").innerHTML=`<p style="text-align:center;padding:30px">Opening…</p>`;document.body.style.overflow="hidden";
- try{const buf=await blob.arrayBuffer();if(R.doc&&R.b!==b){R.doc.destroy();R.doc=null}
-  if(!R.doc){R.doc=await lib.getDocument({data:buf}).promise;R.b=b}
-  const p1=await R.doc.getPage(Math.min(R.doc.numPages,3));const vp=p1.getViewport({scale:1});R.ratio=vp.height/vp.width;
-  layout();goPage(page||S.last[b]||1)}catch(err){$("#pages").innerHTML=`<p style="padding:30px">This file couldn't be opened as a PDF.</p>`}}
 function alertBox(msg){$("#today").insertAdjacentHTML("afterbegin",`<div class="banner bad">${esc(msg)}</div>`)}
+function toast(h,ms){const t=$("#toast");t.innerHTML=h;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,ms||3200)}
+function sheet(h){const s=$("#sheet");s.innerHTML=h;s.hidden=false;s.scrollTop=0;s.querySelectorAll("[data-x]").forEach(x=>x.onclick=()=>s.hidden=true)}
+const closeSheet=()=>$("#sheet").hidden=true;
+
+/* ---------- reader: state ---------- */
+let R={b:null,l:"en",key:null,mode:"read",doc:null,zoom:1,cur:1,obs:null,vis:null,ratio:1.4,saveT:null,bid:null,sec:0};
+let T=null;          // reading text for R.b: {b,blocks,starts,secOf,idx,gloss,size}
+let C={open:false,l:null,key:null,sec:-1};
+const RS=()=>S.rset=S.rset||{fs:19,th:"auto",voice:"",rate:1};
+function applyTheme(){const r=RS(),el=$("#reader");el.dataset.th=r.th==="auto"?"":r.th;el.style.setProperty("--fs",(r.fs||19)+"px")}
+
+async function openReader(b,o={}){
+ const ls=langsOf(b);if(!ls.length){tab("books");return}
+ let l=o.l||(S.lang!=="en"&&have[keyOf(b,S.lang)]?S.lang:(have[b]?"en":ls[0]));
+ if(!have[keyOf(b,l)])l=ls[0];
+ $("#reader").hidden=false;document.body.style.overflow="hidden";applyTheme();
+ $("#rTitle").textContent=B[b].title;
+ if(R.b!==b){T=null;C.open=false;C.sec=-1;$("#cmp").hidden=true}
+ R.b=b;
+ const mode=l==="en"&&!o.raw?(RS().mode||"read"):"page";
+ await switchTo(l,mode,o)}
+
+/* pos: {page: printed page in English numbering}, {raw: pdf page in this edition}, {bid} */
+async function switchTo(l,mode,pos={}){
+ stopSpeech();hideSel();closeSheet();
+ const b=R.b;R.l=l;R.key=keyOf(b,l);R.mode=mode;
+ if(l!=="en")mode=R.mode="page";
+ tools();
+ if(mode==="read"){$("#pages").hidden=true;$("#flow").hidden=false;
+  const ok=await ensureText();if(!ok)return;
+  let bid=pos.bid;
+  if(!bid&&pos.sec&&T.starts[pos.sec.i]!=null){const st=T.starts[pos.sec.i];if(pos.sec.f<.05)bid=T.blocks[st].id;else{const p=pos.page+offOf(b,"en"),x=T.blocks.find((x,i)=>i>=st&&x.pg>=p&&x.k!=="hr");bid=(x||T.blocks[st]).id}}
+  if(!bid&&pos.page)bid=blockAtPdf(pos.page+offOf(b,"en"));
+  if(!bid)bid=(S.rpos||{})[b]||(S.last[b]?blockAtPdf(S.last[b]):null);
+  goBlock(bid||T.blocks[0].id,false);
+ }else{$("#flow").hidden=true;$("#pages").hidden=false;$("#cmp").hidden=true;
+  const d=await getDoc(R.key);if(!d){$("#pages").innerHTML=`<p style="padding:30px">This file couldn't be opened as a PDF.</p>`;return}
+  R.doc=d;const p1=await d.getPage(Math.min(d.numPages,3));const vp=p1.getViewport({scale:1});R.ratio=vp.height/vp.width;
+  layout();
+  let p=pos.raw;
+  if(!p&&pos.page)p=l==="en"?pos.page+offOf(b,"en"):pageAt(b,l,secAt(b,"en",pos.page))+offOf(b,l);
+  if(!p&&pos.sec!=null)p=pageAt(b,l,pos.sec)+offOf(b,l);
+  if(!p)p=S.last[R.key]||1;
+  goPage(p)}
+ status()}
+
+function tools(){const b=R.b,ls=langsOf(b);
+ let h=`<div class="seg" role="group" aria-label="View"><button data-rm="read" aria-pressed="${R.mode==="read"}" ${have[b]?"":"disabled"}>Read</button><button data-rm="page" aria-pressed="${R.mode==="page"}">Page</button></div>`;
+ if(ls.length>1)h+=`<div class="seg" role="group" aria-label="Language">${ls.map(l=>`<button data-rl="${l}" aria-pressed="${R.l===l}" lang="${l}">${LS[l]}</button>`).join("")}</div>`;
+ h+=`<span class="sp"></span>`;
+ if(R.mode==="read"&&ls.some(l=>l!=="en"))h+=`<button class="chip" id="rCmp" aria-pressed="${C.open}">⇆ Compare</button>`;
+ if(R.mode==="page")h+=`<button class="chip" id="rOut" aria-label="Zoom out">−</button><button class="chip" id="rIn" aria-label="Zoom in">+</button>`;
+ $("#rtools").innerHTML=h;
+ $("#rSpeak").hidden=R.mode!=="read";
+ const c=$("#rCmp");if(c)c.onclick=()=>{C.open=!C.open;c.setAttribute("aria-pressed",C.open);if(C.open)showCompare(true);else $("#cmp").hidden=true};
+ const zi=$("#rIn"),zo=$("#rOut");
+ if(zi)zi.onclick=()=>{const p=R.cur;R.zoom=Math.min(2.5,R.zoom+.25);layout();goPage(p)};
+ if(zo)zo.onclick=()=>{const p=R.cur;R.zoom=Math.max(1,R.zoom-.25);layout();goPage(p)}}
+$("#rtools").addEventListener("click",e=>{const x=e.target.closest("button");if(!x)return;
+ if(x.dataset.rm&&x.dataset.rm!==R.mode){const m=x.dataset.rm;if(m==="read")RS().mode="read";else if(R.l==="en")RS().mode="page";save();
+  const pos=curPos();switchTo(m==="read"?"en":R.l,m,pos)}
+ else if(x.dataset.rl&&x.dataset.rl!==R.l){const l=x.dataset.rl,pos=curPos();switchTo(l,l==="en"?(RS().mode||"read"):"page",pos)}});
+/* where the reader is now, in a form the other views understand */
+function curPos(){const b=R.b;
+ if(R.mode==="read"&&T){const blk=T.idx[R.bid];if(!blk)return{};return{page:blk.pg-offOf(b,"en"),bid:R.bid}}
+ const pr=R.cur-offOf(b,R.l);if(R.l==="en")return{page:pr};
+ const s=secAt(b,R.l,pr);return{page:pageAt(b,"en",s),sec:s}}
+
+function status(){const b=R.b;let line="";
+ if(R.mode==="read"&&T&&R.bid){const blk=T.idx[R.bid],s=T.secOf[blk._i],c=B[b].ch[s];
+  line=`p. ${Math.max(1,blk.pg-offOf(b,"en"))} · ${c?(b==="sc"?`Ch ${c[0]} · `:`${c[0]}. `)+c[1]:""}`;
+  $("#rprog i").style.width=Math.round(blk._i/T.blocks.length*100)+"%";
+  $("#rMark").textContent=(S.bm[b]||[]).some(x=>x.p===blk.pg)?"★":"☆"}
+ else if(R.doc){const pr=R.cur-offOf(b,R.l);line=`${R.l!=="en"?LN[R.l]+" · ":""}${pr>0?`p. ${pr} · `:""}PDF ${R.cur}/${R.doc.numPages}`;
+  $("#rprog i").style.width=Math.round(R.cur/R.doc.numPages*100)+"%";
+  $("#rMark").textContent=(S.bm[R.key]||[]).some(x=>x.p===R.cur)?"★":"☆"}
+ $("#rPage").textContent=line}
+
+$("#rClose").onclick=()=>{stopSpeech();hideSel();$("#reader").hidden=true;closeSheet();document.body.style.overflow="";if(R.b){savePos(true);render()}};
+function savePos(now){clearTimeout(R.saveT);const f=()=>{let ch=false;
+  if(R.mode==="read"&&T&&R.bid){S.rpos=S.rpos||{};const blk=T.idx[R.bid];if(S.rpos[R.b]!==R.bid){S.rpos[R.b]=R.bid;ch=true}if(blk&&S.last[R.b]!==blk.pg){S.last[R.b]=blk.pg;ch=true}}
+  else if(R.doc&&S.last[R.key]!==R.cur){S.last[R.key]=R.cur;ch=true}
+  if(ch)save()};
+ if(now)f();else R.saveT=setTimeout(f,1500)}
+
+/* ---------- page view ---------- */
 function layout(){const box=$("#pages"),W=Math.min(box.clientWidth-16,900)*R.zoom;let h="";
  for(let i=1;i<=R.doc.numPages;i++)h+=`<div class="pg" data-p="${i}" style="width:${W}px;height:${Math.round(W*R.ratio)}px"><span class="n">${i}</span></div>`;
  box.innerHTML=h;R.obs&&R.obs.disconnect();R.vis&&R.vis.disconnect();
- R.obs=new IntersectionObserver(es=>es.forEach(x=>{const el=x.target;if(x.isIntersecting)draw(el);else if(el.firstChild&&el.firstChild.tagName==="CANVAS"&&Math.abs(+el.dataset.p-R.cur)>4)el.querySelector("canvas").remove()}),{root:box,rootMargin:"150% 0px"});
- R.vis=new IntersectionObserver(es=>{es.forEach(x=>{if(x.isIntersecting&&x.intersectionRatio>.4){R.cur=+x.target.dataset.p;status()}})},{root:box,threshold:[.4,.7]});
+ R.obs=new IntersectionObserver(es=>es.forEach(x=>{const el=x.target;if(x.isIntersecting)draw(el);else if(el.querySelector("canvas")&&Math.abs(+el.dataset.p-R.cur)>4)el.querySelector("canvas").remove()}),{root:box,rootMargin:"150% 0px"});
+ R.vis=new IntersectionObserver(es=>{es.forEach(x=>{if(x.isIntersecting&&x.intersectionRatio>.4){R.cur=+x.target.dataset.p;status();savePos()}})},{root:box,threshold:[.4,.7]});
  box.querySelectorAll(".pg").forEach(el=>{R.obs.observe(el);R.vis.observe(el)})}
-async function draw(el){if(el.querySelector("canvas")||el.dataset.busy)return;el.dataset.busy=1;
- try{const pg=await R.doc.getPage(+el.dataset.p);const W=el.clientWidth,dpr=Math.min(2,window.devicePixelRatio||1);const vp=pg.getViewport({scale:W*dpr/pg.getViewport({scale:1}).width});
+async function draw(el){if(el.querySelector("canvas")||el.dataset.busy)return;el.dataset.busy=1;const d=R.doc;
+ try{const pg=await d.getPage(+el.dataset.p);if(d!==R.doc)throw 0;const W=el.clientWidth,dpr=Math.min(2,window.devicePixelRatio||1);const vp=pg.getViewport({scale:W*dpr/pg.getViewport({scale:1}).width});
   const c=document.createElement("canvas");c.width=vp.width;c.height=vp.height;el.prepend(c);await pg.render({canvasContext:c.getContext("2d"),viewport:vp}).promise}catch(e){}
  delete el.dataset.busy}
 function goPage(p){p=Math.max(1,Math.min(R.doc.numPages,p));const el=$(`.pg[data-p="${p}"]`);if(el){el.scrollIntoView();R.cur=p;status()}}
-function printed(p){const off=S.adj[R.b]??B[R.b].offset;return p-off}
-function status(){const pr=printed(R.cur);$("#rPage").textContent=`${pr>0?`Book p. ${pr} · `:""}PDF ${R.cur}/${R.doc.numPages}`;
- $("#rMark").textContent=(S.bm[R.b]||[]).some(x=>x.p===R.cur)?"★":"☆";
- clearTimeout(R.saveT);R.saveT=setTimeout(()=>{if(S.last[R.b]!==R.cur){S.last[R.b]=R.cur;save()}},1500)}
-$("#rClose").onclick=()=>{$("#reader").hidden=true;$("#sheet").hidden=true;document.body.style.overflow="";if(R.b){S.last[R.b]=R.cur;save();render()}};
-$("#rIn").onclick=()=>{const p=R.cur;R.zoom=Math.min(2.5,R.zoom+.25);layout();goPage(p)};
-$("#rOut").onclick=()=>{const p=R.cur;R.zoom=Math.max(1,R.zoom-.25);layout();goPage(p)};
-$("#rMark").onclick=()=>{const l=S.bm[R.b]=S.bm[R.b]||[];const i=l.findIndex(x=>x.p===R.cur);
- if(i>=0){l.splice(i,1);save();status()}else{sheet(`<h3>Bookmark PDF page ${R.cur}</h3><label for="bmn">Note (optional)</label><input type="text" id="bmn" placeholder="e.g. Raiba fills the bowls"><div class="row"><button class="btn pri" id="bmS">Save bookmark</button><button class="btn" id="shX">Cancel</button></div>`);
-  $("#bmS").onclick=()=>{l.push({p:R.cur,note:$("#bmn").value.trim(),t:Date.now()});save();$("#sheet").hidden=true;status()}}};
-function sheet(h){const s=$("#sheet");s.innerHTML=h;s.hidden=false;const x=$("#shX");if(x)x.onclick=()=>s.hidden=true}
-$("#rToc").onclick=()=>{const b=R.b,off=S.adj[b]??B[b].offset;const bm=(S.bm[b]||[]).slice().sort((a,c)=>a.p-c.p);
- sheet(`<div class="row" style="margin:0 0 8px;justify-content:space-between"><h3>Contents</h3><button class="btn sm" id="shX">Close</button></div>
- ${bm.length?`<div class="toc">${bm.map(x=>`<button data-go="${x.p}"><span>★ ${esc(x.note||"Bookmark")}</span><small>PDF p. ${x.p}</small></button>`).join("")}</div>`:""}
- <div class="toc">${B[b].ch.map(([c,t,p])=>`<button data-go="${p+off}"><span>${b==="sc"?`Ch ${c} · `:`${c}. `}${esc(t)}</span><small>p. ${p}</small></button>`).join("")}</div>
- <h3 style="margin-top:16px">Page numbers off?</h3><p class="note">Type the number printed on the page you're looking at now (PDF page ${R.cur}).</p>
- <div class="row"><input type="text" inputmode="numeric" id="fixN" style="width:120px" aria-label="Printed page number"><button class="btn" id="fixB">Fix</button></div>`);
- $("#sheet").querySelectorAll("[data-go]").forEach(x=>x.onclick=()=>{$("#sheet").hidden=true;goPage(+x.dataset.go)});
- $("#fixB").onclick=()=>{const n=parseInt($("#fixN").value,10);if(n>0){S.adj[b]=R.cur-n;save();$("#sheet").hidden=true;status()}}};
-let rT;window.addEventListener("resize",()=>{if($("#reader").hidden||!R.doc)return;clearTimeout(rT);rT=setTimeout(()=>{const p=R.cur;layout();goPage(p)},300)});
+let rT;window.addEventListener("resize",()=>{if($("#reader").hidden||R.mode!=="page"||!R.doc)return;clearTimeout(rT);rT=setTimeout(()=>{const p=R.cur;layout();goPage(p)},300)});
+
+/* ---------- bookmarks ---------- */
+$("#rMark").onclick=()=>{let key=R.key,p=R.cur,bid=null;
+ if(R.mode==="read"&&T&&R.bid){key=R.b;p=T.idx[R.bid].pg;bid=R.bid}
+ const l=S.bm[key]=S.bm[key]||[];const i=l.findIndex(x=>x.p===p);
+ if(i>=0){l.splice(i,1);save();status();toast("Bookmark removed");return}
+ sheet(`<div class="shh"><h3>Bookmark ${R.mode==="read"?"this spot":"PDF page "+p}</h3><button class="btn sm" data-x>Cancel</button></div><label for="bmn">Note (optional)</label><input type="text" id="bmn" placeholder="e.g. Raiba fills the bowls"><div class="row"><button class="btn pri" id="bmS">Save bookmark</button></div>`);
+ $("#bmS").onclick=()=>{l.push({p,bid,note:$("#bmn").value.trim(),t:Date.now()});save();closeSheet();status();toast("Bookmarked ★")}};
+
+/* ---------- reading text ---------- */
+function idbStore(st,mode){return pdfStore.transaction(st,mode).objectStore(st)}
+const txtGet=k=>new Promise(r=>{try{const q=idbStore("txt").get(k);q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)}catch(e){r(null)}});
+const txtPut=(k,v)=>new Promise(r=>{try{const tx=pdfStore.transaction("txt","readwrite");tx.objectStore("txt").put(v,k);tx.oncomplete=()=>r(true);tx.onerror=()=>r(false)}catch(e){r(false)}});
+async function ensureText(){const b=R.b;if(T&&T.b===b&&T.off===offOf(b,"en"))return true;
+ const blob=await pdfGet(b);if(!blob){$("#flowIn").innerHTML=`<div class="prep"><p>Add the English PDF of this book to use the reading view.</p></div>`;return false}
+ let c=await txtGet(b);
+ if(!c||c.v!==EXV||c.size!==blob.size){
+  $("#flowIn").innerHTML=`<div class="prep"><h3>Preparing the reading view</h3><p class="note">This happens once on this device and takes a few seconds. The book never leaves your phone.</p><div class="bar"><i id="prepBar"></i></div></div>`;
+  try{const d=await getDoc(b);if(!d)throw 0;
+   const r=await extractBook(d,offOf(b,"en")+1,d.numPages,f=>{const x=$("#prepBar");if(x)x.style.width=Math.round(f*100)+"%"});
+   c={v:EXV,size:blob.size,body:r.body,blocks:r.blocks};txtPut(b,c)}
+  catch(e){$("#flowIn").innerHTML=`<div class="prep"><p>The reading view couldn't be made from this file. The Page view still works.</p></div>`;return false}}
+ const blocks=JSON.parse(JSON.stringify(c.blocks)),off=offOf(b,"en");
+ const starts=sectionize(blocks,B[b].ch,off);
+ const secOf=[],idx={};let s=-1;blocks.forEach((x,i)=>{while(s+1<starts.length&&starts[s+1]<=i)s++;secOf[i]=Math.max(0,s);x._i=i;idx[x.id]=x});
+ const gloss={};blocks.forEach(x=>{if(x.k==="gl"&&x.it&&x.it[0][0]===0){const t=x.x.slice(0,x.it[0][1]).trim();gloss[gk(t)]={t,d:x.x.slice(x.it[0][1]).trim()}}});
+ T={b,off,blocks,starts,secOf,idx,gloss};renderFlow();return true}
+const gk=t=>t.toLowerCase().replace(/[^a-zÀ-ɏ-]/g,"");
+function glossFor(t){if(!T)return null;const k=gk(t);return T.gloss[k]||T.gloss[k.replace(/(es|s)$/,"")]||T.gloss[k.replace(/s$/,"")]||null}
+function blockAtPdf(p){if(!T)return null;const x=T.blocks.find(x=>x.pg>=p&&x.k!=="hr");return x?x.id:null}
+
+/* ---------- rendering ---------- */
+function hlFor(b){return(S.hl&&S.hl[R.b]||[]).filter(h=>h.bid===b.id)}
+function segHTML(b,spk){const x=b.x,it=b.it||[],hs=hlFor(b).filter(h=>h.e<=x.length&&h.s<h.e),br=b.br||[];
+ const cuts=new Set([0,x.length]);it.forEach(r=>{cuts.add(r[0]);cuts.add(r[1])});hs.forEach(h=>{cuts.add(h.s);cuts.add(h.e)});br.forEach(r=>cuts.add(r[0]));if(spk){cuts.add(spk[0]);cuts.add(spk[1])}
+ const cs=[...cuts].filter(c=>c>=0&&c<=x.length).sort((a,c)=>a-c);let h="";
+ for(let k=0;k<cs.length;k++){const a=cs[k],z=cs[k+1];
+  for(const r of br)if(r[0]===a)h+=`<span class="pgm" data-n="${r[1]-T.off}" aria-hidden="true"></span>`;
+  if(z===undefined||z<=a)continue;
+  let t=esc(x.slice(a,z));const ir=it.find(r=>r[0]<=a&&r[1]>=z);
+  if(ir){const g=glossFor(x.slice(ir[0],ir[1]));t=g?`<em class="g" data-g="${esc(x.slice(ir[0],ir[1]))}">${t}</em>`:`<em>${t}</em>`}
+  if(spk&&spk[0]<=a&&spk[1]>=z)t=`<span class="spk">${t}</span>`;
+  const hl=hs.find(q=>q.s<=a&&q.e>=z);if(hl)t=`<mark class="hl h-${hl.k}" data-h="${hl.id}">${t}</mark>`;
+  h+=t}
+ return h}
+function blockHTML(b,lead){const id=esc(b.id),pm=lead?`<span class="pgm" data-n="${b.pg-T.off}" aria-hidden="true"></span>`:"";const inner=pm+segHTML(b);
+ switch(b.k){
+  case"st":{const s=T.secOf[b._i],c=B[R.b].ch[s];const lab=R.b==="sc"&&c?`Chapter ${c[0]}`:esc(short[R.b]);return`<h2 class="st"><span class="lab">${lab}</span><span data-b="${id}">${inner}</span></h2>`}
+  case"h":return`<h3 class="h" data-b="${id}">${inner}</h3>`;
+  case"h4":return`<h4 class="h4" data-b="${id}">${inner}</h4>`;
+  case"cap":return`<figure class="cap"><button data-see="${b.pg}">Picture · p. ${Math.max(1,b.pg-T.off)}</button><figcaption data-b="${id}">${inner}</figcaption></figure>`;
+  case"fn":return`<p class="fn" data-b="${id}">${inner}</p>`;
+  case"hr":return`<div class="orn" aria-hidden="true">✦ ✦ ✦</div>`;
+  case"v":return`<p class="v" data-b="${id}">${inner}</p>`;
+  case"gl":return`<p class="gl" data-b="${id}">${inner}</p>`;
+  default:return`<p class="p${b.li?" li":""}" data-b="${id}">${inner}</p>`}}
+function renderFlow(){let h="",pg=-1,open=false;const st=new Set(T.starts);
+ T.blocks.forEach((b,i)=>{if(b.hide)return;if(i===0||st.has(i)){if(open)h+=`</section>`;h+=`<section class="sec" data-s="${T.secOf[i]}">`;open=true}
+  const lead=b.k!=="hr"&&b.k!=="st"&&b.pg!==pg;h+=blockHTML(b,lead);if(b.k!=="hr"){pg=b.br&&b.br.length?b.br[b.br.length-1][1]:b.pg}});
+ if(open)h+=`</section>`;$("#flowIn").innerHTML=h}
+function rerender(bid,spk){const b=T&&T.idx[bid];if(!b)return;const el=$(`#flowIn [data-b="${CSS.escape(bid)}"]`);if(!el)return;
+ const pm=el.firstChild&&el.firstChild.classList&&el.firstChild.classList.contains("pgm")?el.firstChild.outerHTML:"";el.innerHTML=pm+segHTML(b,spk)}
+function blockEl(bid){return $(`#flowIn [data-b="${CSS.escape(bid)}"]`)}
+function goBlock(bid,flash){const el=blockEl(bid);if(!el)return;const box=el.closest("h2,figure")||el;
+ box.scrollIntoView({block:"start"});R.bid=bid;R.sec=T.secOf[T.idx[bid]._i];status();
+ if(flash){box.classList.remove("flash");void box.offsetWidth;box.classList.add("flash")}
+ if(C.open)showCompare()}
+
+/* track the reading position */
+let scT=0;$("#flow").addEventListener("scroll",()=>{if(scT)return;scT=setTimeout(()=>{scT=0;trackPos()},180)},{passive:true});
+function trackPos(){if(!T||R.mode!=="read")return;const r=$("#flow").getBoundingClientRect();
+ for(let y=r.top+8;y<r.top+260;y+=10){const el=document.elementFromPoint(r.left+r.width/2,y);const b=el&&(el.closest("[data-b]")||el.querySelector&&el.querySelector("[data-b]"));
+  if(b&&$("#flowIn").contains(b)){const id=b.dataset.b;if(id!==R.bid){R.bid=id;const s=T.secOf[T.idx[id]._i];const ch=s!==R.sec;R.sec=s;status();savePos();if(ch&&C.open)showCompare()}return}}}
+
+/* ---------- selecting and marking ---------- */
+const selbar=$("#selbar");let pend=null,hideT=0;
+selbar.firstElementChild.innerHTML=KINDS.map(([k,n])=>`<button data-k="${k}" aria-label="${n}"><i class="sw sw-${k}">${k==="note"?"✎":""}</i>${n}</button>`).join("");
+function txtOffset(root,node,off){const r=document.createRange();r.setStart(root,0);try{r.setEnd(node,off)}catch(e){return 0}return Math.min(root.textContent.length,r.toString().length)}
+function hideSel(){selbar.hidden=true;pend=null}
+document.addEventListener("selectionchange",()=>{if($("#reader").hidden||R.mode!=="read"||!T)return;clearTimeout(hideT);
+ const sel=getSelection();if(!sel.rangeCount||sel.isCollapsed){hideT=setTimeout(()=>{selbar.hidden=true},500);return}
+ const rg=sel.getRangeAt(0),flow=$("#flowIn");if(!flow.contains(rg.commonAncestorContainer)&&rg.commonAncestorContainer!==flow){selbar.hidden=true;return}
+ const elOf=n=>(n.nodeType===3?n.parentElement:n).closest("[data-b]");
+ let a=elOf(rg.startContainer),z=elOf(rg.endContainer);
+ if(!a&&z)a=z;if(!a){selbar.hidden=true;return}
+ const len=a.textContent.length;let s=txtOffset(a,rg.startContainer,rg.startOffset),e=z===a?txtOffset(a,rg.endContainer,rg.endOffset):len;
+ if(!a.contains(rg.startContainer))s=0;
+ const t=a.textContent;while(s<e&&/\s/.test(t[s]))s++;while(e>s&&/\s/.test(t[e-1]))e--;
+ if(e-s<1){selbar.hidden=true;return}
+ pend={bid:a.dataset.b,s,e};selbar.hidden=false;$("#toast").hidden=true});
+selbar.addEventListener("pointerdown",e=>{const x=e.target.closest("button");if(!x)return;e.preventDefault();addHL(x.dataset.k)});
+selbar.addEventListener("click",e=>e.preventDefault());
+function addHL(k){if(!pend)return;const{bid,s,e}=pend,b=T.idx[bid];if(!b)return;S.hl=S.hl||{};const L=S.hl[R.b]=S.hl[R.b]||[];
+ const same=L.find(h=>h.bid===bid&&h.s===s&&h.e===e);
+ for(let i=L.length-1;i>=0;i--){const h=L[i];if(h.bid===bid&&h.s<e&&h.e>s)L.splice(i,1)}
+ let h=null;
+ if(!(same&&same.k===k)){h={id:"h"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),bid,s,e,k,q:b.x.slice(s,e).slice(0,500),sec:T.secOf[b._i],pg:b.pg,t:Date.now()};if(same&&same.n)h.n=same.n;L.push(h)}
+ save();rerender(bid);try{getSelection().removeAllRanges()}catch(x){}hideSel();
+ if(!h){toast("Mark removed");return}
+ if(!RS().tip){RS().tip=1;save();toast(`Each colour keeps one meaning, so your memory links them: <b>yellow</b> facts, <b>rose</b> quotes, <b>blue</b> reasons, <b>green</b> lessons.`,7000)}
+ else if(k==="quote")toast(`Quote marked. <button id="tqc">Make a who-said-it card</button>`,5000);
+ else if(k==="note"){hlSheet(h.id,true);return}
+ else if(k==="word"){const g=glossFor(h.q);if(g)glossSheet(h.q);else toast("Word circled")}
+ else toast(`Marked as ${KN[k]}`,1800);
+ const q=$("#tqc");if(q)q.onclick=()=>{$("#toast").hidden=true;hlSheet(h.id,false,true)}}
+
+$("#flowIn").addEventListener("click",e=>{const sel=getSelection();if(sel&&!sel.isCollapsed)return;
+ const m=e.target.closest("mark.hl");if(m){hlSheet(m.dataset.h);return}
+ const g=e.target.closest("em.g");if(g){glossSheet(g.dataset.g);return}
+ const see=e.target.closest("[data-see]");if(see){switchTo("en","page",{raw:+see.dataset.see});return}});
+
+function kindPicker(cur){return`<div class="kinds">${KINDS.map(([k,n])=>`<button data-kk="${k}" aria-pressed="${k===cur}"><i class="sw sw-${k}">${k==="note"?"✎":""}</i>${n}</button>`).join("")}</div>`}
+function hlSheet(id,focusNote,card){const L=S.hl[R.b]||[],h=L.find(x=>x.id===id);if(!h)return;const c=h.card&&S.cards.find(x=>x.id===h.card);
+ sheet(`<div class="shh"><h3>${esc(KN[h.k])}</h3><button class="btn sm" data-x>Done</button></div>
+ <p class="nbq" style="font-family:Literata,Georgia,serif;font-size:17px">“${esc(h.q)}”</p>${kindPicker(h.k)}
+ <label for="hn">Your note</label><textarea id="hn" placeholder="Why this matters, a page link, a memory hook…">${esc(h.n||"")}</textarea>
+ ${c?`<p class="note">Quote card made ✓ (${esc(c.who||"")})</p>`:`<details id="qcd" ${card||h.k==="quote"?"open":""}><summary style="font-weight:600;padding:8px 0">Make a who-said-it card</summary>
+ <label for="qw">Who is speaking</label><input type="text" id="qw"><label for="qm">To whom</label><input type="text" id="qm"><label for="qn">When (the situation)</label><input type="text" id="qn">
+ <div class="row"><button class="btn pri" id="qS">Save card</button></div></details>`}
+ <div class="row"><button class="btn" id="hGo">Show in book</button><button class="btn" id="hDel" style="color:var(--warn)">Delete mark</button></div>`);
+ const hn=$("#hn");hn.oninput=()=>{h.n=hn.value.trim();save()};if(focusNote)setTimeout(()=>hn.focus(),50);
+ $("#sheet").querySelectorAll("[data-kk]").forEach(x=>x.onclick=()=>{h.k=x.dataset.kk;save();rerender(h.bid);hlSheet(id)});
+ const qs=$("#qS");if(qs)qs.onclick=()=>{const who=$("#qw").value.trim();if(!who){$("#qw").focus();return}
+  const cd={id:"c"+Date.now().toString(36),q:h.q,who,whom:$("#qm").value.trim(),when:$("#qn").value.trim(),book:R.b,box:0,due:todayS(),src:h.id};S.cards.push(cd);h.card=cd.id;save();hlSheet(id);toast("Card saved to your quote cards")};
+ $("#hGo").onclick=()=>{closeSheet();if(R.mode!=="read")switchTo("en","read",{bid:h.bid});else goBlock(h.bid,true)};
+ $("#hDel").onclick=()=>{const i=L.indexOf(h);if(i>=0)L.splice(i,1);save();rerender(h.bid);closeSheet();toast("Mark deleted")}}
+function glossSheet(term){const g=glossFor(term);if(!g)return;
+ sheet(`<div class="shh"><h3>Glossary</h3><button class="btn sm" data-x>Close</button></div><div class="gpop"><dfn>${esc(g.t)}</dfn>${esc(g.d)}</div><p class="note">From this book's own glossary.</p>`)}
+
+/* ---------- contents, notes, bookmarks ---------- */
+let tocTab="toc",nbF="all";
+$("#rToc").onclick=()=>openToc();
+function openToc(){const b=R.b;
+ const tabs=`<div class="tabs"><button class="chip" data-tt="toc" aria-pressed="${tocTab==="toc"}">Contents</button><button class="chip" data-tt="nb" aria-pressed="${tocTab==="nb"}">Notes ${(S.hl[b]||[]).length||""}</button><button class="chip" data-tt="bm" aria-pressed="${tocTab==="bm"}">★ Saved</button><span style="flex:1"></span><button class="chip" data-x aria-label="Close">✕</button></div>`;
+ let h="";
+ if(tocTab==="toc"){const l=R.mode==="read"?"en":R.l,P=chPages(b,l),off=offOf(b,l),cur=R.mode==="read"?R.sec:secAt(b,l,R.cur-off).i;
+  h=`<div class="toc">${B[b].ch.map(([c,t],i)=>`<button data-go="${i}" class="${i===cur?"on":""} ${b==="sc"&&i>0&&B[b].ch[i-1][0]===c?"sub":""}"><span>${b==="sc"?(i===0||B[b].ch[i-1][0]!==c?`Ch ${c} · `:""):`${c}. `}${esc(t)}</span><small>p. ${P[i]}</small></button>`).join("")}</div>`;
+  if(R.mode==="page")h+=`<h3 style="margin-top:16px">Page numbers off?</h3><p class="note">Type the number printed on the page you're looking at now (PDF page ${R.cur}).</p><div class="row"><input type="text" inputmode="numeric" id="fixN" style="width:120px" aria-label="Printed page number"><button class="btn" id="fixB">Fix</button></div>`}
+ else if(tocTab==="nb")h=notebookHTML(b);
+ else{const ks=LANGS.map(l=>keyOf(b,l));const all=ks.flatMap(k=>(S.bm[k]||[]).map(x=>({...x,k}))).sort((a,c)=>a.p-c.p);
+  h=all.length?`<div class="toc">${all.map(x=>`<button data-bmk="${x.k}|${x.p}|${x.bid||""}"><span>★ ${esc(x.note||"Bookmark")}</span><small>${x.k.includes(":")?LN[x.k.split(":")[1]]+" · ":""}PDF p. ${x.p}</small></button>`).join("")}</div>`:`<p class="note">No bookmarks yet. Tap ☆ at the top to save your spot.</p>`}
+ sheet(tabs+h);const s=$("#sheet");
+ s.querySelectorAll("[data-tt]").forEach(x=>x.onclick=()=>{tocTab=x.dataset.tt;openToc()});
+ s.querySelectorAll("[data-go]").forEach(x=>x.onclick=()=>{closeSheet();const i=+x.dataset.go;
+  if(R.mode==="read")goBlock(T.blocks[T.starts[i]].id);else goPage(chPages(b,R.l)[i]+offOf(b,R.l))});
+ s.querySelectorAll("[data-bmk]").forEach(x=>x.onclick=()=>{closeSheet();const[k,p,bid]=x.dataset.bmk.split("|");const l=k.includes(":")?k.split(":")[1]:"en";
+  if(bid&&l==="en")switchTo("en","read",{bid});else switchTo(l,"page",{raw:+p})});
+ const fb=$("#fixB");if(fb)fb.onclick=()=>{const n=parseInt($("#fixN").value,10);if(n>0){S.adj[R.key]=R.cur-n;if(R.l==="en")T=null;save();closeSheet();status()}};
+ bindNotebook()}
+function notebookHTML(b){const L=(S.hl[b]||[]).slice().sort((a,c)=>a.sec-c.sec||a.pg-c.pg||a.s-c.s);
+ if(!L.length)return`<p>Select words while reading and pick a colour. Each colour keeps one meaning:</p><div class="legend">${KINDS.map(([k,n,d])=>`<i class="sw sw-${k}">${k==="note"?"✎":""}</i><span><b>${n}</b> · ${d}</span>`).join("")}</div>`;
+ const cnt={};L.forEach(h=>cnt[h.k]=(cnt[h.k]||0)+1);const F=nbF==="all"?L:L.filter(h=>h.k===nbF);
+ let h=`<div class="kinds"><button data-nf="all" aria-pressed="${nbF==="all"}">All ${L.length}</button>${KINDS.filter(k=>cnt[k[0]]).map(([k,n])=>`<button data-nf="${k}" aria-pressed="${nbF===k}"><i class="sw sw-${k}">${k==="note"?"✎":""}</i>${n} ${cnt[k]}</button>`).join("")}</div>
+ <div class="row" style="margin:0 0 6px"><button class="btn pri sm" id="nbP" ${F.length?"":"disabled"}>Practise recall (${F.length})</button></div>`;
+ let last=-1;for(const x of F){if(x.sec!==last){last=x.sec;const c=B[b].ch[x.sec];h+=`<h4 style="margin:14px 0 2px;font-size:13px;color:var(--rmute)">${c?esc((b==="sc"?`Ch ${c[0]} · `:`${c[0]}. `)+c[1]):""}</h4>`}
+  h+=`<button class="nb k-${x.k}" data-nb="${x.id}"><span class="nbq">${esc(x.q)}</span>${x.n?`<small>✎ ${esc(x.n)}</small>`:""}<small>${KN[x.k]} · p. ${Math.max(1,x.pg-offOf(b,"en"))}${x.card?" · card ✓":""}</small></button>`}
+ return h}
+function bindNotebook(){const s=$("#sheet");
+ s.querySelectorAll("[data-nf]").forEach(x=>x.onclick=()=>{nbF=x.dataset.nf;openToc()});
+ s.querySelectorAll("[data-nb]").forEach(x=>x.onclick=()=>{const h=(S.hl[R.b]||[]).find(z=>z.id===x.dataset.nb);if(!h)return;closeSheet();
+  if(R.mode!=="read"||R.l!=="en")switchTo("en","read",{bid:h.bid}).then(()=>flashHL(h));else{goBlock(h.bid);flashHL(h)}});
+ const p=$("#nbP");if(p)p.onclick=()=>practice()}
+function flashHL(h){setTimeout(()=>{const m=$(`mark[data-h="${h.id}"]`);if(m){m.scrollIntoView({block:"center"});m.classList.add("flash")}},60)}
+/* recall practice: the marked words become a blank in their own sentence */
+function practice(){const b=R.b,L=(S.hl[b]||[]).filter(h=>nbF==="all"||h.k===nbF);if(!L.length)return;
+ const q=L.slice().sort(()=>Math.random()-.5);let i=0,shown=false;
+ const ctx=h=>{const blk=T&&T.idx[h.bid];if(!blk)return{pre:"",post:"",a:h.q};const x=blk.x;let a=h.s,z=h.e;
+  while(a>0&&!/[.!?…]["”’]?\s/.test(x.slice(a-3,a)))a--;while(z<x.length&&!/[.!?…]/.test(x[z-1]||""))z++;
+  return{pre:x.slice(Math.max(0,a),h.s),post:x.slice(h.e,Math.min(x.length,z+1)),a:x.slice(h.s,h.e)}};
+ const show=()=>{const h=q[i],c=ctx(h);
+  sheet(`<div class="shh"><h3>Recall ${i+1} of ${q.length}</h3><button class="btn sm" id="prX">Done</button></div><p class="note">${KN[h.k]} · ${esc(B[b].ch[h.sec]?B[b].ch[h.sec][1]:"")}</p>
+  <div class="recall">${esc(c.pre)}${shown?`<span class="ans">${esc(c.a)}</span>`:`<span class="gap">&nbsp;</span>`}${esc(c.post)}</div>${h.n&&shown?`<p class="note">✎ ${esc(h.n)}</p>`:""}
+  <div class="row">${shown?`<button class="btn pri" id="pN">${i+1<q.length?"Next":"Finish"}</button>`:`<button class="btn pri" id="pS">Show answer</button>`}</div>`);
+  $("#prX").onclick=()=>{tocTab="nb";openToc()};const s=$("#pS"),n=$("#pN");
+  if(s)s.onclick=()=>{shown=true;show()};if(n)n.onclick=()=>{if(i+1>=q.length){tocTab="nb";openToc();toast("Practice done. Well done!");return}i++;shown=false;show()}};
+ show()}
+
+/* ---------- settings ---------- */
+$("#rSet").onclick=()=>{const r=RS();const vs=voiceList();
+ sheet(`<div class="shh"><h3>Reading</h3><button class="btn sm" data-x>Done</button></div>
+ <label for="fsR">Text size</label><input type="range" id="fsR" min="15" max="26" step="1" value="${r.fs||19}">
+ <label>Page colour</label><div class="kinds">${[["auto","Match phone"],["paper","Paper"],["sepia","Sepia"],["night","Night"]].map(([k,n])=>`<button data-th="${k}" aria-pressed="${(r.th||"auto")===k}">${n}</button>`).join("")}</div>
+ <label for="vSel">Read-aloud voice</label><select id="vSel">${vs.map(v=>`<option value="${esc(v.id)}" ${v.id===curVoiceId()?"selected":""}>${esc(v.name)}</option>`).join("")}</select>
+ <p class="note">Voices are free and built into your phone. On iPhone you can add nicer ones in Settings › Accessibility › Spoken Content › Voices (pick an "Enhanced" English voice).</p>`);
+ $("#fsR").oninput=e=>{r.fs=+e.target.value;applyTheme();save()};
+ $("#sheet").querySelectorAll("[data-th]").forEach(x=>x.onclick=()=>{r.th=x.dataset.th;applyTheme();save();$("#sheet").querySelectorAll("[data-th]").forEach(y=>y.setAttribute("aria-pressed",y===x))});
+ $("#vSel").onchange=e=>{r.voice=e.target.value;save()}};
+
+/* ---------- read aloud ---------- */
+let TTS=null,TTSbad=false;const SP={on:false,q:[],i:0,gen:0,cur:null};
+function voiceList(){const out=[];if(TTS&&!TTSbad)out.push({id:"claude",name:"Claude voice (AI)"});
+ const vs=(window.speechSynthesis&&speechSynthesis.getVoices()||[]).filter(v=>/^en/i.test(v.lang));
+ const rank=v=>(/en-IN/i.test(v.lang)?0:/en-GB/i.test(v.lang)?1:2)-(/enhanced|premium|natural|neural|siri/i.test(v.name)?3:0);
+ vs.sort((a,c)=>rank(a)-rank(c)).forEach(v=>out.push({id:v.voiceURI,name:`${v.name} (${v.lang})`}));
+ if(!out.length)out.push({id:"",name:"Default voice"});return out}
+function curVoiceId(){const r=RS(),vs=voiceList();return vs.some(v=>v.id===r.voice)?r.voice:vs[0].id}
+try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+function sentences(b){const x=b.x,out=[],re=/[^.!?…]+(?:[.!?…]+["”’)\]]*|$)\s*/g;let m;
+ while((m=re.exec(x))){if(!m[0])break;let s=m.index,e=m.index+m[0].length;while(e>s&&/\s/.test(x[e-1]))e--;if(e-s>1)out.push({bid:b.id,s,e,t:x.slice(s,e)});if(re.lastIndex>=x.length)break}
+ for(let k=out.length-2;k>=0;k--)if(out[k].t.length<=4){out[k].e=out[k+1].e;out[k].t=x.slice(out[k].s,out[k].e);out.splice(k+1,1)}
+ return out}
+function buildQueue(fromBid){const i0=T.idx[fromBid]?T.idx[fromBid]._i:0;const q=[];
+ for(let i=i0;i<T.blocks.length&&q.length<400;i++){const b=T.blocks[i];if(["cap","hr","fn"].includes(b.k))continue;q.push(...sentences(b))}return q}
+$("#rSpeak").onclick=()=>{if(SP.on||!$("#player").hidden){stopSpeech();return}startSpeech()};
+function startSpeech(){if(!T)return;const bid=R.bid||T.blocks[0].id;SP.q=buildQueue(bid);SP.i=0;SP.on=true;SP.gen++;
+ $("#player").hidden=false;$("#rSpeak").setAttribute("aria-pressed","true");playerUI();speakAt(0)}
+function playerUI(){const r=RS().rate||1;$("#player").firstElementChild.innerHTML=`<button id="pPrev" aria-label="Previous sentence">⏮</button><button class="pp" id="pPlay" aria-label="${SP.on?"Pause":"Play"}">${SP.on?"❚❚":"▶"}</button><button id="pNext" aria-label="Next sentence">⏭</button><button class="rt" id="pRate" aria-label="Reading speed">${r}×</button><span class="who">${curVoiceId()==="claude"?"Claude voice":"Phone voice"}</span><button id="pX" aria-label="Stop reading">✕</button>`;
+ $("#pPrev").onclick=()=>speakAt(Math.max(0,SP.i-1));$("#pNext").onclick=()=>speakAt(Math.min(SP.q.length-1,SP.i+1));
+ $("#pPlay").onclick=()=>{if(SP.on){pauseSpeech()}else{SP.on=true;playerUI();speakAt(SP.i)}};
+ $("#pRate").onclick=()=>{const R5=[.85,1,1.15,1.3,1.5];const r=RS();r.rate=R5[(R5.indexOf(r.rate||1)+1)%R5.length];save();playerUI();if(SP.on)speakAt(SP.i)};
+ $("#pX").onclick=stopSpeech}
+function markSpk(item){if(SP.cur&&SP.cur!==item.bid)rerender(SP.cur);SP.cur=item.bid;rerender(item.bid,[item.s,item.e]);
+ const el=blockEl(item.bid),sp=el&&el.querySelector(".spk");const box=$("#flow").getBoundingClientRect(),r=(sp||el).getBoundingClientRect();
+ if(r.top<box.top+20||r.bottom>box.bottom-140)(sp||el).scrollIntoView({block:"center",behavior:"smooth"})}
+function speakAt(i){if(!SP.q.length)return;SP.i=i;const g=++SP.gen;const item=SP.q[i];if(!item){stopSpeech();return}markSpk(item);
+ const r=RS().rate||1,vid=curVoiceId();
+ if(vid==="claude"&&TTS&&!TTSbad){const lines=SP.q.slice(i,i+10).map((x,k)=>({text:x.t,id:String(i+k)}));
+  try{TTS.stop()}catch(e){}
+  TTS.speak(lines,{rate:r}).then(()=>{if(g!==SP.gen||!SP.on)return;const n=i+lines.length;if(n<SP.q.length)speakAt(n);else{if(extendQueue())speakAt(n);else stopSpeech()}}).catch(e=>{if(g!==SP.gen)return;if(e&&/stop/.test(e.code||"")){stopSpeech();return}TTSbad=true;speakAt(i)});return}
+ const u=new SpeechSynthesisUtterance(item.t);u.rate=r;const v=(speechSynthesis.getVoices()||[]).find(x=>x.voiceURI===vid);try{if(v){u.voice=v;u.lang=v.lang}else u.lang="en-IN"}catch(e){}
+ u.onend=()=>{if(g!==SP.gen||!SP.on)return;if(i+1>=SP.q.length&&!extendQueue()){stopSpeech();return}speakAt(i+1)};
+ u.onerror=e=>{if(g!==SP.gen)return;if(e.error!=="interrupted"&&e.error!=="canceled"){stopSpeech();toast("Read-aloud couldn't start here. Try another voice under Aa.")}};
+ if(speechSynthesis.speaking||speechSynthesis.pending){speechSynthesis.cancel();setTimeout(()=>{if(g===SP.gen)speechSynthesis.speak(u)},60)}else speechSynthesis.speak(u)}
+function extendQueue(){const last=SP.q[SP.q.length-1];if(!last)return false;const i0=T.idx[last.bid]._i+1;if(i0>=T.blocks.length)return false;
+ const more=buildQueue(T.blocks[i0].id);SP.q.push(...more);return more.length>0}
+function pauseSpeech(){SP.on=false;SP.gen++;try{speechSynthesis.cancel()}catch(e){}try{TTS&&TTS.stop()}catch(e){}playerUI()}
+function stopSpeech(){SP.on=false;SP.gen++;try{speechSynthesis.cancel()}catch(e){}try{TTS&&TTS.stop()}catch(e){}
+ if(SP.cur){const c=SP.cur;SP.cur=null;rerender(c)}$("#player").hidden=true;$("#rSpeak").setAttribute("aria-pressed","false")}
+function bindTTS(t){TTS=t;try{t.onLine(({id})=>{const i=+id;if(SP.on&&SP.q[i]){SP.i=i;markSpk(SP.q[i])}})}catch(e){}}
+
+/* ---------- compare with another language ---------- */
+async function showCompare(force){if(!C.open||R.mode!=="read"||!T)return;const b=R.b,ls=langsOf(b).filter(l=>l!=="en");
+ if(!ls.length){$("#cmp").hidden=true;return}
+ if(!C.l||!ls.includes(C.l))C.l=ls.includes(S.lang)?S.lang:ls[0];
+ const s=R.sec;if(!force&&s===C.sec&&C.key===keyOf(b,C.l)&&!$("#cmp").hidden)return;
+ C.sec=s;C.key=keyOf(b,C.l);const cmp=$("#cmp");cmp.hidden=false;
+ const P=chPages(b,C.l),off=offOf(b,C.l),a=P[s],z=s+1<P.length?Math.max(a,P[s+1]):endOf(b,C.l);const pages=[];for(let p=a;p<=Math.min(z,a+7);p++)pages.push(p);
+ cmp.innerHTML=`<div class="ch"><span class="t" lang="${C.l}"><b>${LN[C.l]}</b> · ${esc(B[b].ch[s][1])} · pp. ${a}${z>a?"–"+z:""}</span>${ls.length>1?`<div class="seg">${ls.map(l=>`<button data-cl="${l}" aria-pressed="${l===C.l}">${LS[l]}</button>`).join("")}</div>`:""}<button class="chip" id="cOpen">Pages</button><button class="chip" id="cX" aria-label="Close compare">✕</button></div><div id="cpg"></div>`;
+ cmp.scrollTop=0;
+ cmp.querySelectorAll("[data-cl]").forEach(x=>x.onclick=()=>{C.l=x.dataset.cl;showCompare(true)});
+ $("#cX").onclick=()=>{C.open=false;cmp.hidden=true;const c=$("#rCmp");if(c)c.setAttribute("aria-pressed","false")};
+ $("#cOpen").onclick=()=>switchTo(C.l,"page",{raw:a+off});
+ const d=await getDoc(C.key);if(!d||C.sec!==s){if(!d)$("#cpg").innerHTML=`<p class="msg">Couldn't open the ${LN[C.l]} PDF.</p>`;return}
+ const box=$("#cpg");const W=Math.min(cmp.clientWidth-16,760),dpr=Math.min(2,window.devicePixelRatio||1);
+ for(const p of pages){if(C.sec!==s||C.key!==keyOf(b,C.l))return;const pn=p+off;if(pn<1||pn>d.numPages)continue;
+  try{const pg=await d.getPage(pn);const vp1=pg.getViewport({scale:1}),vp=pg.getViewport({scale:W*dpr/vp1.width});
+   const w=document.createElement("div");w.className="cp";w.style.width=W+"px";const c=document.createElement("canvas");c.width=vp.width;c.height=vp.height;c.style.height=(W*vp1.height/vp1.width)+"px";w.append(c);w.insertAdjacentHTML("beforeend",`<span>p. ${p}</span>`);box.append(w);
+   await pg.render({canvasContext:c.getContext("2d"),viewport:vp}).promise}catch(e){}}}
 
 /* ---------- boot ---------- */
-if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
 render();try{const t=sessionStorage.getItem("spp-tab");if(t)tab(t)}catch(e){}
-idb().then(async d=>{pdfStore=d;for(const b of BK)have[b]=!!(await pdfGet(b));booksView()});
+idb().then(async d=>{pdfStore=d;for(const k of await pdfKeys())have[k]=true;booksView()});
+(async()=>{try{if(!window.claude||!claude.use)return;const t=await claude.use("tts");if(t)bindTTS(t)}catch(e){}})();
 setInterval(()=>{if(document.hidden)return;const t=todayS();if(t!==window._d){window._d=t;render()}},60000);window._d=todayS();
+if("serviceWorker" in navigator&&location.protocol==="https:")navigator.serviceWorker.register("sw.js").catch(()=>{});
 (async()=>{try{if(!window.claude||!claude.use)return;db=await claude.use("db");const user=await claude.use("user");const id=user&&await user.id();
  if(!db||!id)return;ref=db.collection("data/users/"+id).doc("state");
  const snap=await ref.get();if(snap.exists){const r=snap.data();if(r&&r.v===1&&(r.upd||0)>(S.upd||0)){S=fixExam(Object.assign(JSON.parse(JSON.stringify(DEF)),JSON.parse(JSON.stringify(r))));try{localStorage.setItem("spp-state",JSON.stringify(S))}catch(e){}render()}else if((S.upd||0)>(r.upd||0))push()}else if(S.upd)push();
